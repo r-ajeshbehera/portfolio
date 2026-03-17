@@ -23,21 +23,20 @@ export default function Home() {
       <section className="hero-section">
         <div className="container flex-col-md-row">
           <div className="hero-text">
-            <h1>Hi, I am Rajesh Behera</h1>
+            <h1>Hi, I'm Rajesh Behera</h1>
             <div className="typewriter-wrapper">
               <Typewriter />
             </div>
             <div className="hero-content">
               <p className="hero-description">
-                I enjoy to build simple, fast, and impactful software solutions that
-                address real-world problems and deliver value.
+               I am an MCA student focused on building a strong foundation in Java, Data Structures, and core computer science concepts. I develop clean and efficient software solutions while continuously improving my problem-solving and programming skills.
                 <Link href="/about" className="link-hover know-more">
                   {" "}
-                  more.
+                  know more.
                 </Link>
               </p>
               <p className="hero-contact">
-                📩 Contact me:{" "}
+                📩 Get in touch:{" "}
                 <a
                   href="mailto:rajeshbehera.works@gmail.com"
                   className="link-hover"
@@ -58,7 +57,7 @@ export default function Home() {
                   rel="noopener noreferrer"
                   onClick={handleResumeClick}
                 >
-                  Hire Me <span className="resume-arrow">↓</span>
+                  Resume <span className="resume-arrow">↓</span>
                 </a>
                 <Link
                   href="https://github.com/r-ajeshbehera"
@@ -113,7 +112,7 @@ export default function Home() {
                 textAlign: "center",
               }}
             >
-              Enhance Your Problem Solving and Logic Building
+              Explore My Problem Solving and Data Structures Practice
             </p>
             <Link
               href="https://github.com/r-ajeshbehera/problem-logic-solution"
@@ -121,7 +120,7 @@ export default function Home() {
               target="_blank"
               rel="noopener noreferrer"
             >
-              Go GitHub
+             View GitHub Repository
             </Link>
           </div>
         </div>
