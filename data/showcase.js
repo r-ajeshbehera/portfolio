@@ -12,7 +12,6 @@ export const showcase = [
     id: "1", group: "built", status: "Personal Project", art: "exam", title: "Automated Exam Portal",
     description: "A web-based MCQ exam system with teacher and student dashboards and instant results.",
     tools: ["PHP", "MySQL", "Bootstrap", "JavaScript"], image: "/images/p1-banner.png",
-    live: "https://automatedexamportal.great-site.net/", github: "https://github.com/r-ajeshbehera/PROJECTS/tree/main/Automated-exam-portal-PHP",
     screenshots: [{ src: "/images/p1s1.png", caption: "Teacher dashboard" }, { src: "/images/p1s6.png", caption: "Student dashboard" }, { src: "/images/p1s7.png", caption: "Instant result display" }],
     points: ["Teachers create and manage MCQ exams", "Students attempt exams and see results immediately", "Exam data and results are stored in MySQL"],
   },
