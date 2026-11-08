@@ -27,7 +27,7 @@ async function save(message) {
 
 async function notify(m) {
   const key = process.env.RESEND_API_KEY;
-  const to = process.env.CONTACT_TO_EMAIL;
+  const to = process.env.CONTACT_TO_EMAIL || "rajeshbehera.works@gmail.com";
   if (!key || !to) return false;
   const res = await fetch("https://api.resend.com/emails", {
     method: "POST",
