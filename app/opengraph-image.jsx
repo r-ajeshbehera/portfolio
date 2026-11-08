@@ -1,7 +1,7 @@
 import { ImageResponse } from "next/og";
 
 export const runtime = "edge";
-export const alt = "Rajesh Behera - Portfolio";
+export const alt = "Rajesh Behera Digital Studio";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -53,7 +53,7 @@ export default async function Image() {
             marginTop: 16,
           }}
         >
-          Aspiring Software Engineer
+          AI Automation &amp; Digital Solutions
         </div>
       </div>
     ),

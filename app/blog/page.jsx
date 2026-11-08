@@ -1,40 +1,14 @@
-"use client";
-
 import Link from "next/link";
-import { useSearchParams } from "next/navigation";
-import BlogCard from "../../components/BlogCard";
+import { PageHead } from "../../components/Sections";
 import { blogs } from "../../data/blogs";
-import { useScrollToHeaderOnReturn } from "../../hooks/usePaginatedList";
-
-export default function Blog() {
-  const searchParams = useSearchParams();
-  const fromAll = searchParams.get("from") === "all";
-
-  useScrollToHeaderOnReturn(fromAll);
-
-  const validBlogs = (blogs || []).slice(0, 6);
-
+export const metadata = { title: "Blog", description: "Notes on software projects, programming and what I am learning." };
+export default function Page() {
   return (
-    <main style={{ paddingTop: "2.5rem" }}>
-      <section className="section">
-        <div className="container">
-          <h2>All Blogs</h2>
-          <div className="grid-1-2-3">
-            {validBlogs.length > 0 ? (
-              validBlogs.map((blog) => <BlogCard key={blog.id} blog={blog} />)
-            ) : (
-              <p>No blog posts available.</p>
-            )}
-          </div>
-          {blogs.length > 6 && (
-            <div className="view-more-container">
-              <Link href="/blog/all" className="view-more" scroll={false}>
-                View More
-              </Link>
-            </div>
-          )}
-        </div>
-      </section>
-    </main>
+    <>
+      <PageHead title="Blog">Notes on projects, programming and what I am learning.</PageHead>
+      <section className="section"><div className="container narrow blog-list">
+        {blogs.map((b) => <article key={b.id}><h2><Link href={`/blog/${b.id}`}>{b.title}</Link></h2><p>{b.description}</p><p className="tools">{(b.technologies || []).join(", ")}</p></article>)}
+      </div></section>
+    </>
   );
 }

@@ -1,46 +1,14 @@
-"use client";
+import { ContactBand, PageHead, ProjectsGrid, SectionHead } from "../../components/Sections";
 
-import Link from "next/link";
-import { useSearchParams } from "next/navigation";
-import ProjectCard from "../../components/ProjectCard";
-import { projects } from "../../data/projects";
-import { useScrollToHeaderOnReturn } from "../../hooks/usePaginatedList";
+export const metadata = { title: "Projects", description: "Software projects and labelled demo projects by Rajesh Behera." };
 
-export default function Projects() {
-  const searchParams = useSearchParams();
-  const fromAll = searchParams.get("from") === "all";
-
-  useScrollToHeaderOnReturn(fromAll);
-
-  const latestProjects = (projects || []).filter((p) => p && p.id).slice(0, 6);
-
+export default function Page() {
   return (
-    <main style={{ paddingTop: "2.5rem" }}>
-      <section className="section">
-        <div className="container">
-          <h2>All Projects</h2>
-          <div className="grid-1-2-3">
-            {latestProjects.length > 0 ? (
-              latestProjects.map((project) => (
-                <ProjectCard
-                  key={project.id}
-                  project={project}
-                  isSearchResult={false}
-                />
-              ))
-            ) : (
-              <p>No projects available.</p>
-            )}
-          </div>
-          {projects.length > 6 && (
-            <div className="view-more-container">
-              <Link href="/projects/all" className="view-more">
-                View More
-              </Link>
-            </div>
-          )}
-        </div>
-      </section>
-    </main>
+    <>
+      <PageHead title="Projects">Team, academic and personal software, plus demo projects that show what I am building next.</PageHead>
+      <section className="section"><div className="container"><SectionHead title="Software I have worked on">None of these are client projects.</SectionHead><ProjectsGrid group="built" /></div></section>
+      <section className="section mist"><div className="container"><SectionHead title="Demo projects">Concepts and prototypes. These are not completed client work.</SectionHead><ProjectsGrid group="demo" /></div></section>
+      <ContactBand />
+    </>
   );
 }

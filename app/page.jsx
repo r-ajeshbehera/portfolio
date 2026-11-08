@@ -1,185 +1,76 @@
-"use client";
-
 import Image from "next/image";
 import Link from "next/link";
-import Typewriter from "../components/Typewriter";
 import ProjectCard from "../components/ProjectCard";
-import BlogCard from "../components/BlogCard";
-import FeedbackSlider from "../components/FeedbackSlider";
-import Search from "../components/Search";
-import ScrollToTop from "../components/ScrollToTop";
-import { blogs } from "../data/blogs";
-import { projects } from "../data/projects";
+import { ContactBand, SectionHead } from "../components/Sections";
+import ServicesList from "../components/ServicesList";
+import Showreel from "../components/Showreel";
+import { visibleProjects } from "../data/showcase";
+import { youtube } from "../data/site";
+
+const promises = [
+  ["You work directly with me", "One person, from first call to handover."],
+  ["Written quote first", "Scope, price and date before work starts."],
+  ["English, Hindi and Odia", "Talk in the language you prefer."],
+  ["Honest about limits", "If I cannot do it well, I will tell you."],
+];
+const steps = [["Free call", "You describe the task."], ["Written quote", "You get the scope, price and date."], ["Build and test", "You try it and ask for changes."], ["Handover", "You get the logins and support."]];
+const featured = ["1", "sikshasadan", "coaching-assistant"].map((id) => visibleProjects.find((p) => p.id === id));
 
 export default function Home() {
-  const validBlogs = (blogs || []).slice(0, 3);
-
-  const handleResumeClick = () => {
-    window.open("/resume.pdf", "_blank");
-  };
-
   return (
-    <div className="home-page">
-      <section className="hero-section">
-        <div className="container flex-col-md-row">
-          <div className="hero-text">
-            <h1>Hi, I'm Rajesh Behera</h1>
-            <div className="typewriter-wrapper">
-              <Typewriter />
-            </div>
-            <div className="hero-content">
-              <p className="hero-description">
-                MCA student focused on Java, Data Structures, and building efficient software solutions.
-                <Link href="/about" className="link-hover know-more">
-                  {" "}
-                  know more.
-                </Link>
-              </p>
-              <p className="hero-contact">
-                📩 Get in touch:{" "}
-                <a
-                  href="mailto:rajeshbehera.works@gmail.com"
-                  className="link-hover"
-                >
-                  rajeshbehera.works@gmail.com
-                </a>{" "}
-                {/* | Phone:{" "}
-                <a href="tel:+911234567890" className="link-hover">
-                  +91 934 831 3504
-                </a> */}
-              </p>
-              <div className="hero-buttons">
-                <a
-                  href="/resume.pdf"
-                  download
-                  className="btn-primary resume-btn"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  onClick={handleResumeClick}
-                >
-                  Resume <span className="resume-arrow">↓</span>
-                </a>
-                <Link
-                  href="https://github.com/r-ajeshbehera"
-                  className="btn-secondary"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  GitHub
-                </Link>
-              </div>
-            </div>
-          </div>
-          <div className="hero-image">
-            <Image
-              src="/images/profile.jpg"
-              alt="Rajesh Behera"
-              width={300}
-              height={375}
-              className="profile-image"
-            />
+    <>
+      <section className="hero">
+        <div className="aurora" aria-hidden="true"><i /><i /></div>
+        <div className="container hero-inner">
+          <h1 data-hero-rise="">Building Smarter Digital Solutions with AI &amp; Technology.</h1>
+          <p className="hero-text" data-hero-rise="">I help individuals and businesses simplify their work through websites, AI automation and practical digital solutions.</p>
+          <div className="actions center" data-hero-rise="">
+            <Link className="btn btn-white" href="/services">Explore My Services</Link>
+            <Link className="btn btn-clear" href="/projects">View My Projects</Link>
+            <Link className="btn btn-clear" href="/contact">Contact Me</Link>
           </div>
         </div>
+        <div className="container reel-wrap" data-hero-rise=""><Showreel /></div>
       </section>
 
-      <FeedbackSlider />
-
-      <section
-        className="section problem-solving-section"
-        style={{ marginBottom: "0.5rem" }}
-      >
-        <div
-          className="container"
-          style={{ maxWidth: "1200px", margin: "0 auto", padding: "0 1rem" }}
-        >
-          <div
-            className="problem-solving-content"
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              justifyContent: "center",
-              gap: "0.4rem",
-              width: "100%",
-              margin: "0 auto",
-            }}
-          >
-            <p
-              style={{
-                color: "var(--text-primary, #333)",
-                fontSize: "1rem",
-                margin: 7,
-                textAlign: "center",
-              }}
-            >
-              Explore My Problem Solving and Data Structures Practice
-            </p>
-            <Link
-              href="https://github.com/r-ajeshbehera/problem-logic-solution"
-              className="btn-secondary"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              View GitHub Repository
-            </Link>
-          </div>
-        </div>
+      <section className="promises-section">
+        <div className="container"><ul className="promises">{promises.map(([t, d]) => <li key={t} data-reveal=""><strong>{t}</strong><span>{d}</span></li>)}</ul></div>
       </section>
 
-      <section className="section search-section" style={{ marginTop: 0 }}>
-        <div
-          className="container"
-          style={{ maxWidth: "1200px", margin: "0 auto", padding: "0 1rem" }}
-        >
-          <Search />
+      <section className="section">
+        <div className="container">
+          <SectionHead title="What I can do for you">Start with the problem. I will suggest the simplest solution that works.</SectionHead>
+          <ServicesList />
         </div>
       </section>
 
       <section className="section">
         <div className="container">
-          <h2>Projects</h2>
-          <div className="grid-1-2-3">
-            {Array.isArray(projects) && projects.length > 0 ? (
-              projects
-                .slice(0, 3)
-                .map((project) => (
-                  <ProjectCard
-                    key={project.id}
-                    project={project}
-                    isSearchResult={false}
-                  />
-                ))
-            ) : (
-              <p>No projects available.</p>
-            )}
-          </div>
-          <div className="view-more-container">
-            <Link href="/projects" className="view-more">
-              View More
-            </Link>
-          </div>
+          <SectionHead title="Selected work">Real software I have worked on, plus clearly labelled demos.</SectionHead>
+          <div className="grid-featured">{featured.map((p) => <div key={p.id} data-reveal=""><ProjectCard project={p} /></div>)}</div>
+          <p className="section-more" data-reveal=""><Link className="text-link" href="/projects">See all projects</Link></p>
         </div>
       </section>
 
       <section className="section">
         <div className="container">
-          <h2>Blog</h2>
-          <div className="grid-1-2-3">
-            {validBlogs.length > 0 ? (
-              validBlogs.map((blog) => <BlogCard key={blog.id} blog={blog} />)
-            ) : (
-              <p>No blog posts available.</p>
-            )}
-          </div>
-          <div className="view-more-container">
-            <Link href="/blog" className="view-more">
-              View More
-            </Link>
-          </div>
+          <SectionHead title="How we work together" />
+          <ol className="steps">{steps.map(([t, d]) => <li key={t} data-reveal=""><strong>{t}</strong><span>{d}</span></li>)}</ol>
         </div>
       </section>
 
-      <ScrollToTop />
-    </div>
+      <section className="section">
+        <div className="container trio">
+          <Link href="/about" className="tile tile-about" data-glow="" data-reveal="">
+            <Image src="/images/profile.jpg" alt="Rajesh Behera" width={160} height={160} />
+            <div><h3>Hi, I&apos;m Rajesh</h3><p>An independent digital creator and aspiring technology entrepreneur, studying for my MCA in Bhubaneswar.</p></div>
+          </Link>
+          <a href={youtube.url} target="_blank" rel="noopener noreferrer" className="tile" data-glow="" data-reveal=""><h3>{youtube.name}</h3><p>Learn AI, explore automation and follow my journey.</p></a>
+          <Link href="/products" className="tile" data-glow="" data-reveal=""><h3>Digital products</h3><p>Templates and guides are coming soon.</p></Link>
+        </div>
+      </section>
+
+      <ContactBand />
+    </>
   );
 }

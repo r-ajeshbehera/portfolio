@@ -1,72 +1,55 @@
-import { ThemeProvider } from '../components/ThemeProvider';
-import ClientWrapper from '../components/ClientWrapper';
-import './globals.css';
+import Script from "next/script";
+import "@fontsource-variable/geist";
+import "./globals.css";
+import Navbar from "../components/Navbar";
+import Footer from "../components/Footer";
+import Motion from "../components/Motion";
+import { site } from "../data/site";
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://rajeshbehera.vercel.app';
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://rajeshbehera.vercel.app";
+const gaId = process.env.NEXT_PUBLIC_GA_ID;
+const title = `${site.name} | ${site.positioning}`;
+const description = site.message;
 
 export const metadata = {
-  // Lets every page's relative OG/Twitter image URLs (from the
-  // opengraph-image.jsx files below) resolve to absolute URLs automatically.
   metadataBase: new URL(siteUrl),
-  title: {
-    default: 'Rajesh Behera - Portfolio',
-    template: '%s',
-  },
-  description: 'Portfolio of Rajesh Behera, Aspiring Software Engineer',
-  openGraph: {
-    title: 'Rajesh Behera - Portfolio',
-    description: 'Portfolio of Rajesh Behera, Aspiring Software Engineer',
-    url: siteUrl,
-    siteName: 'Rajesh Behera - Portfolio',
-    type: 'website',
-  },
-  twitter: {
-    card: 'summary_large_image',
-    title: 'Rajesh Behera - Portfolio',
-    description: 'Portfolio of Rajesh Behera, Aspiring Software Engineer',
-  },
-  // Lets RSS readers and browsers auto-discover the feed from app/rss.xml/route.js
-  alternates: {
-    types: {
-      'application/rss+xml': '/rss.xml',
-    },
-  },
+  title: { default: title, template: `%s | ${site.name}` },
+  description,
+  openGraph: { title, description, url: siteUrl, siteName: site.brand, type: "website" },
+  twitter: { card: "summary_large_image", title, description },
+  alternates: { types: { "application/rss+xml": "/rss.xml" } },
 };
 
-// Previously a manual <meta name="viewport" content="width-device-width,..."/>
-// tag in <head> -- "width-device-width" (hyphen instead of "=") isn't a
-// recognized viewport key, which is exactly the "key not recognized and
-// ignored" warning browsers show. Next.js's dedicated `viewport` export is
-// also the framework-recommended way to set this in the App Router instead
-// of a hand-written meta tag.
-export const viewport = {
-  width: 'device-width',
-  initialScale: 1,
-};
+export const viewport = { width: "device-width", initialScale: 1 };
 
-// Site-wide structured data (schema.org) so search engines can understand
-// who this site belongs to, independent of whatever page is being crawled.
 const personJsonLd = {
   "@context": "https://schema.org",
   "@type": "Person",
-  name: "Rajesh Behera",
-  jobTitle: "Aspiring Software Engineer",
+  name: site.name,
+  jobTitle: site.positioning,
   url: siteUrl,
-  sameAs: ["https://github.com/r-ajeshbehera"],
+  sameAs: [site.github, site.linkedin],
 };
 
 export default function Layout({ children }) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body suppressHydrationWarning>
-        <script
-          type="application/ld+json"
-          // eslint-disable-next-line react/no-danger
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd) }}
-        />
-        <ThemeProvider>
-          <ClientWrapper>{children}</ClientWrapper>
-        </ThemeProvider>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: `if(!matchMedia("(prefers-reduced-motion: reduce)").matches){var d=document.documentElement;d.classList.add("js-anim");setTimeout(function(){d.classList.add("anim-ready")},2500)}` }} />
+      </head>
+      <body>
+        <a className="skip" href="#content">Skip to content</a>
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd) }} />
+        <Navbar />
+        <main id="content">{children}</main>
+        <Footer />
+        <Motion />
+        {gaId && (
+          <>
+            <Script src={`https://www.googletagmanager.com/gtag/js?id=${gaId}`} strategy="afterInteractive" />
+            <Script id="ga" strategy="afterInteractive">{`window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date());gtag('config','${gaId}');`}</Script>
+          </>
+        )}
       </body>
     </html>
   );

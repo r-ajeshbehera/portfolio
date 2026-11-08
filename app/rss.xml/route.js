@@ -36,7 +36,7 @@ export async function GET() {
   <channel>
     <title>Rajesh Behera - Blog</title>
     <link>${siteUrl}/blog</link>
-    <description>Technical blog posts by Rajesh Behera, Aspiring Software Engineer.</description>
+    <description>Technical blog posts by Rajesh Behera, AI Automation and Digital Solutions.</description>
     <language>en</language>${items}
   </channel>
 </rss>`;
