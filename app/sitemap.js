@@ -1,5 +1,5 @@
 import { blogs } from "../data/blogs";
-import { projects } from "../data/projects";
+import { showcase as projects } from "../data/showcase";
 
 // Next.js App Router convention: this file automatically generates
 // /sitemap.xml. Falls back to the deployed Vercel URL if NEXT_PUBLIC_SITE_URL
@@ -12,9 +12,12 @@ export default function sitemap() {
     { url: `${baseUrl}/`, changeFrequency: "monthly", priority: 1 },
     { url: `${baseUrl}/about`, changeFrequency: "monthly", priority: 0.8 },
     { url: `${baseUrl}/projects`, changeFrequency: "weekly", priority: 0.8 },
-    { url: `${baseUrl}/projects/all`, changeFrequency: "weekly", priority: 0.6 },
     { url: `${baseUrl}/blog`, changeFrequency: "weekly", priority: 0.8 },
-    { url: `${baseUrl}/blog/all`, changeFrequency: "weekly", priority: 0.6 },
+    { url: `${baseUrl}/services`, changeFrequency: "monthly", priority: 0.9 },
+    { url: `${baseUrl}/products`, changeFrequency: "monthly", priority: 0.6 },
+    { url: `${baseUrl}/youtube`, changeFrequency: "monthly", priority: 0.6 },
+    { url: `${baseUrl}/privacy`, changeFrequency: "yearly", priority: 0.2 },
+    { url: `${baseUrl}/terms`, changeFrequency: "yearly", priority: 0.2 },
     { url: `${baseUrl}/contact`, changeFrequency: "monthly", priority: 0.7 },
   ].map((entry) => ({ ...entry, lastModified: new Date() }));
 

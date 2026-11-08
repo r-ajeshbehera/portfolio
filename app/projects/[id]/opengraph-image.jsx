@@ -1,5 +1,5 @@
 import { ImageResponse } from "next/og";
-import { projects } from "../../../data/projects";
+import { showcase as projects } from "../../../data/showcase";
 
 export const runtime = "edge";
 export const alt = "Project - Rajesh Behera";
@@ -10,7 +10,7 @@ export default async function Image({ params }) {
   const { id } = await params;
   const project = projects.find((p) => p.id === id);
   const title = project?.title || "Project";
-  const category = project?.category || "Project";
+  const category = project?.status || "Project";
 
   return new ImageResponse(
     (

@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { supabase } from "../lib/supabaseClient";
 import { v4 as uuidv4 } from "uuid";
+import { ThumbsUp, ThumbsDown } from "lucide-react";
 
 export default function LikeDislike({ itemId, itemType }) {
   const [likes, setLikes] = useState(0);
@@ -114,83 +115,13 @@ export default function LikeDislike({ itemId, itemType }) {
   };
 
   return (
-    <div
-      className="like-dislike"
-      style={{
-        display: "flex",
-        justifyContent: "flex-end",
-        gap: "10px",
-        marginTop: "5px",
-      }}
-    >
-      <div
-        className="like-box"
-        style={{
-          background: "rgba(0, 0, 0, 0.1)",
-          borderRadius: "4px",
-          padding: "5px 10px",
-          width: "60px",
-          textAlign: "center",
-        }}
-      >
-        <button
-          className={`like-button ${userVote === "like" ? "active" : ""}`}
-          onClick={() => handleVote("like")}
-          disabled={isVoting}
-          aria-pressed={userVote === "like"}
-          style={{
-            background: "none",
-            border: "none",
-            cursor: isVoting ? "default" : "pointer",
-            opacity: isVoting ? 0.6 : 1,
-            fontSize: "1rem",
-            color:
-              userVote === "like"
-                ? "var(--primary-color, #007bff)"
-                : "var(--text-secondary, #666)",
-            display: "flex",
-            alignItems: "center",
-            gap: "5px",
-            margin: "0 auto",
-          }}
-        >
-          👍 {likes}
-        </button>
-      </div>
-      <div
-        className="dislike-box"
-        style={{
-          background: "rgba(0, 0, 0, 0.1)",
-          borderRadius: "4px",
-          padding: "5px 10px",
-          width: "60px",
-          textAlign: "center",
-        }}
-      >
-        <button
-          className={`dislike-button ${userVote === "dislike" ? "active" : ""}`}
-          onClick={() => handleVote("dislike")}
-          disabled={isVoting}
-          aria-pressed={userVote === "dislike"}
-          style={{
-            background: "none",
-            border: "none",
-            cursor: isVoting ? "default" : "pointer",
-            opacity: isVoting ? 0.6 : 1,
-            fontSize: "1rem",
-            color:
-              userVote === "dislike"
-                ? "var(--primary-color, #007bff)"
-                : "var(--text-secondary, #666)",
-            display: "flex",
-            alignItems: "center",
-            gap: "5px",
-            margin: "0 auto",
-          }}
-        >
-          👎 {dislikes}
-        </button>
-      </div>
+    <div className="votes">
+      <button type="button" onClick={() => handleVote("like")} disabled={isVoting} aria-pressed={userVote === "like"} aria-label={`Like, ${likes} so far`}>
+        <ThumbsUp size={18} aria-hidden="true" /> {likes}
+      </button>
+      <button type="button" onClick={() => handleVote("dislike")} disabled={isVoting} aria-pressed={userVote === "dislike"} aria-label={`Dislike, ${dislikes} so far`}>
+        <ThumbsDown size={18} aria-hidden="true" /> {dislikes}
+      </button>
     </div>
   );
 }
