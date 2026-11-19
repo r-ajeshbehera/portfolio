@@ -8,12 +8,12 @@ export const metadata = { title: "Contact — Get a Free Website Quote", descrip
 export default function Contact() {
   return (
     <>
-      <PageHero tall crumbs={[{ name: "Contact", href: "/contact" }]} eyebrow="Contact" title="Let's talk about your project" text={`Share a few details and I'll reply ${site.responseTime || "soon"} with questions or a time for a free call.`} />
-      <section className="sec" style={{ paddingTop: 0 }}>
+      <PageHero crumbs={[{ name: "Contact", href: "/contact" }]} eyebrow="Contact" title="Let's talk about your project" text={`Share a few details and I'll reply ${site.responseTime || "soon"} with questions or a time for a free call.`} />
+      <section className="sec sec-contact">
         <div className="container contact-grid">
           <ContactForm />
           <aside className="contact-side">
-            <div className="card card-dark" data-reveal style={{ marginTop: 32 }}>
+            <div className="card card-dark" data-reveal>
               <h2>Contact details</h2>
               <ul className="clist">
                 <li><span className="ci"><Icon name="mail" size={20} /></span><div><b>Email</b><a href={`mailto:${site.email}`}>{site.email}</a></div></li>

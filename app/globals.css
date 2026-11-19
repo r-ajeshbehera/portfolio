@@ -702,5 +702,10 @@ body { background: #fcfcfd; }
 .form-fallback a { font-weight: 600; }
 .ftr-areas { font-size: .88rem; color: var(--muted); margin-top: -8px; }
 /* render below-the-fold sections lazily (faster first paint on phones) */
-main .sec, .stats-band, .ftr { content-visibility: auto; contain-intrinsic-size: auto 900px; }
+.stats-band, .ftr { content-visibility: auto; contain-intrinsic-size: auto 600px; }
 .hv-card, .hv-founder { backdrop-filter: none; background: #fff; }
+/* contact page: clean stacked layout (no overlap with the header band) */
+.sec-contact { padding-top: 64px; content-visibility: visible !important; }
+.sec-contact .form { margin-top: 0; }
+.sec-contact .contact-side { position: sticky; top: 96px; }
+@media (max-width: 960px) { .sec-contact .contact-side { position: static; } .sec-contact { padding-top: 40px; } }
