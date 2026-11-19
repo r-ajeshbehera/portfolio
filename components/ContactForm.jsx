@@ -29,11 +29,12 @@ export default function ContactForm() {
     const match = services.find((s) => s.slug === q.get("service"));
     const budget = q.get("budget");
     const industry = q.get("industry");
+    const note = q.get("note");
     setValues((v) => ({
       ...v,
       service: match ? match.title : v.service,
       budget: budget && budgetOptions.includes(budget) ? budget : v.budget,
-      details: industry && !v.details ? `Business type: ${industry}\n` : v.details,
+      details: note && !v.details ? `Estimate: ${note}\n\n` : industry && !v.details ? `Business type: ${industry}\n` : v.details,
     }));
   }, []);
 

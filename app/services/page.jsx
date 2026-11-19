@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import Icon from "../../components/Icon";
+import ProjectQuiz from "../../components/ProjectQuiz";
 import { PageHero, SectionHead, ServiceCard, Cta, CheckList } from "../../components/Blocks";
 import { services, reasons } from "../../data/site";
 
@@ -21,6 +22,13 @@ export default function Services() {
       <section className="sec">
         <div className="container">
           <div className="grid-3" data-stagger>{services.map((s) => <div key={s.slug} data-reveal><ServiceCard s={s} /></div>)}</div>
+        </div>
+      </section>
+
+      <section className="sec sec-quiz">
+        <div className="container quiz-grid">
+          <div data-reveal><SectionHead eyebrow="Not sure?" title="Find the right service in 30 seconds" text="Three quick questions, one clear recommendation." /></div>
+          <div data-reveal><ProjectQuiz /></div>
         </div>
       </section>
 

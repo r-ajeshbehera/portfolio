@@ -2,6 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { notFound } from "next/navigation";
 import Icon from "../../../components/Icon";
+import AutoVideo from "../../../components/AutoVideo";
 import { PageHero, ProjectCard, Cta, CheckList, SectionHead, JsonLd } from "../../../components/Blocks";
 import { site, projects } from "../../../data/site";
 
@@ -30,7 +31,11 @@ export default async function Case({ params }) {
       </PageHero>
       <section className="sec" style={{ paddingTop: 0 }}>
         <div className="container">
-          <div className="case-hero-img anim-zoom"><Image src={p.image} alt={`${p.title} preview`} fill priority sizes="100vw" /></div>
+          <div className="case-hero-img anim-zoom">
+            <Image src={p.poster || p.image} alt={`${p.title} preview`} fill priority sizes="100vw" />
+            {p.video && <AutoVideo src={p.video} poster={p.poster} className="case-vid" label={`${p.title} demo video`} />}
+            {p.video && <span className="hv-tag"><span className="live-dot" aria-hidden="true" /> Real demo recording</span>}
+          </div>
           <dl className="case-facts" data-stagger>
             <div data-reveal><dt>Type</dt><dd>{p.label}</dd></div>
             <div data-reveal><dt>Category</dt><dd>{p.category}</dd></div>

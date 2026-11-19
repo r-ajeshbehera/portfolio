@@ -3,7 +3,7 @@ import { notFound } from "next/navigation";
 import Icon from "../../../components/Icon";
 import Accordion from "../../../components/Accordion";
 import { PageHero, ServiceCard, Cta, CheckList, JsonLd, SectionHead } from "../../../components/Blocks";
-import { site, services } from "../../../data/site";
+import { site, services, demos } from "../../../data/site";
 
 const live = services.filter((s) => s.status !== "coming");
 export function generateStaticParams() { return live.map((s) => ({ slug: s.slug })); }
@@ -24,6 +24,7 @@ export default async function ServicePage({ params }) {
   const { slug } = await params;
   const s = live.find((x) => x.slug === slug);
   if (!s) notFound();
+  const demo = demos.find((d) => d.service === s.slug);
   const others = live.filter((x) => x.slug !== s.slug).slice(0, 3);
   const ld = [
     { "@context": "https://schema.org", "@type": "Service", name: s.title, description: s.intro, serviceType: s.title, url: `${site.url}/services/${s.slug}`, image: `${site.url}${s.image}`, provider: { "@id": `${site.url}/#business` }, areaServed: "IN" },
@@ -78,6 +79,7 @@ export default async function ServicePage({ params }) {
               <div><dt>Languages</dt><dd>EN · HI · OD</dd></div>
             </dl>
             <Link href={`/contact?service=${s.slug}`} className="btn btn-primary btn-block">Request a quote <Icon name="arrow" size={16} /></Link>
+            {demo && <Link href={`/demos/${demo.slug}`} className="btn btn-ghost btn-block" style={{ marginTop: 10 }}><Icon name="sparkle" size={16} /> Try the live demo</Link>}
           </aside>
         </div>
       </section>

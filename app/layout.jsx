@@ -6,6 +6,7 @@ import Header from "../components/Header";
 import Footer from "../components/Footer";
 import Reveal from "../components/Reveal";
 import MobileBar from "../components/MobileBar";
+import Tilt from "../components/Tilt";
 import { JsonLd } from "../components/Blocks";
 import { site, services } from "../data/site";
 
@@ -66,6 +67,7 @@ export default function RootLayout({ children }) {
         <Footer />
         <Reveal />
         <MobileBar />
+        <Tilt />
         {gaId && (
           <>
             <Script src={`https://www.googletagmanager.com/gtag/js?id=${gaId}`} strategy="afterInteractive" />

@@ -3,8 +3,12 @@ import Image from "next/image";
 import Icon from "../components/Icon";
 import Counter from "../components/Counter";
 import Accordion from "../components/Accordion";
-import { SectionHead, ServiceCard, ProjectCard, PostCard, Marquee, Testimonials, Cta, CheckList, JsonLd, Eyebrow } from "../components/Blocks";
-import { site, services, projects, reasons, workflow, industries, faqs, stats, tools, plans } from "../data/site";
+import AutoVideo from "../components/AutoVideo";
+import TimelineFill from "../components/TimelineFill";
+import ProjectQuiz from "../components/ProjectQuiz";
+import PriceCalculator from "../components/PriceCalculator";
+import { SectionHead, ServiceCard, ProjectCard, PostCard, Marquee, Testimonials, Cta, CheckList, JsonLd, Eyebrow, DemoCard } from "../components/Blocks";
+import { site, services, projects, reasons, workflow, industries, faqs, stats, tools, plans, demos } from "../data/site";
 import { posts } from "../data/posts";
 
 export const metadata = { alternates: { canonical: "/" } };
@@ -22,7 +26,11 @@ export default function Home() {
         <div className="container hero-grid">
           <div className="hero-copy">
             <p className="hero-kicker anim-up"><span className="live-dot" aria-hidden="true" /> Now taking new projects · Bhubaneswar, Odisha</p>
-            <h1 className="anim-up a1">Websites that bring you <span className="hl">more customers</span>, not just visitors.</h1>
+            <h1 className="words">
+              {"Websites that bring you".split(" ").map((w, i) => <span key={i}><span className="w"><span style={{ "--i": i }}>{w}</span></span>{" "}</span>)}
+              <span className="w"><span className="hl" style={{ "--i": 4 }}>more customers,</span></span>{" "}
+              {"not just visitors.".split(" ").map((w, i) => <span key={i}>{i > 0 && " "}<span className="w"><span style={{ "--i": 5 + i }}>{w}</span></span></span>)}
+            </h1>
             <p className="lead anim-up a2">I design fast, SEO-friendly websites and simple automations for startups and small businesses — so you get found on Google, win more enquiries and spend less time on manual work.</p>
             <div className="hero-ctas anim-up a3">
               <Link href="/contact" className="btn btn-primary btn-lg">Get a free quote <Icon name="arrow" size={18} /></Link>
@@ -37,7 +45,9 @@ export default function Home() {
 
           <div className="hero-visual anim-zoom a2">
             <div className="hv-main">
-              <Image src="/images/stock/hero-team.jpg" alt="A small team planning a business website together on laptops" fill priority sizes="(max-width: 900px) 100vw, 46vw" />
+              <Image src="/media/projects/aashraynet-poster.jpg" alt="Showreel of real projects built by Rajesh Behera" fill priority sizes="(max-width: 900px) 100vw, 46vw" />
+              <AutoVideo src="/media/projects/showreel.mp4" poster="/media/projects/aashraynet-poster.jpg" className="hv-vid" label="Showreel of real projects: AashrayNet, MilanSetu and JanSunwai" />
+              <span className="hv-tag"><span className="live-dot" aria-hidden="true" /> Real project showreel</span>
             </div>
             <div className="hv-card hv-c1 float">
               <span className="hv-ic ok"><Icon name="mail" size={18} /></span>
@@ -63,6 +73,16 @@ export default function Home() {
           <div className="grid-3" data-stagger>
             {services.map((s) => <div key={s.slug} data-reveal><ServiceCard s={s} /></div>)}
           </div>
+        </div>
+      </section>
+
+      {/* ───────── QUIZ ───────── */}
+      <section className="sec sec-quiz">
+        <div className="container quiz-grid">
+          <div data-reveal>
+            <SectionHead eyebrow="Not sure where to start?" title="Find the right service in 30 seconds" text="Answer three quick questions and get a personal recommendation — no email needed." />
+          </div>
+          <div data-reveal><ProjectQuiz /></div>
         </div>
       </section>
 
@@ -106,7 +126,7 @@ export default function Home() {
       <section className="sec">
         <div className="container">
           <SectionHead eyebrow="How it works" title="A clear process, from first call to launch" text="You always know what's being built, what it costs and when it will be ready." center />
-          <ol className="timeline" data-stagger>
+          <TimelineFill><ol className="timeline" data-stagger>
             {workflow.map((p, i) => (
               <li key={p.title} className="tl-step" data-reveal>
                 <span className="tl-num">{String(i + 1).padStart(2, "0")}</span>
@@ -115,7 +135,7 @@ export default function Home() {
                 <p>{p.text}</p>
               </li>
             ))}
-          </ol>
+          </ol></TimelineFill>
           <p className="center mt-sm" data-reveal><Link href="/process" className="link">See the full process <Icon name="arrow" size={16} /></Link></p>
         </div>
       </section>
@@ -130,8 +150,16 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ───────── INDUSTRIES ───────── */}
+      {/* ───────── DEMOS ───────── */}
       <section className="sec">
+        <div className="container">
+          <SectionHead eyebrow="Live demos" title="Try what I build — right now" text="Interactive demos for every service, built with sample data. Click around, they really work." action={<Link href="/demos" className="btn btn-ghost">All demos <Icon name="arrow" size={16} /></Link>} />
+          <div className="grid-3" data-stagger>{demos.slice(0, 3).map((d) => <div key={d.slug} data-reveal><DemoCard d={d} /></div>)}</div>
+        </div>
+      </section>
+
+      {/* ───────── INDUSTRIES ───────── */}
+      <section className="sec sec-mist">
         <div className="container">
           <SectionHead eyebrow="Industries" title="Built for businesses like yours" text="Practical digital tools for local businesses that want to look professional and save time." center />
           <div className="inds" data-stagger>
@@ -168,6 +196,10 @@ export default function Home() {
             ))}
           </div>
           <p className="center plans-note" data-reveal>Prices exclude domain, hosting and third-party costs. <Link href="/pricing">Compare plans →</Link></p>
+          <div className="calc-wrap" data-reveal>
+            <SectionHead eyebrow="Price calculator" title="Estimate your website cost" center />
+            <PriceCalculator />
+          </div>
         </div>
       </section>
 

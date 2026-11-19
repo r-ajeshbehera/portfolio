@@ -1,5 +1,6 @@
 import Link from "next/link";
 import Accordion from "../../components/Accordion";
+import PriceCalculator from "../../components/PriceCalculator";
 import { PageHero, SectionHead, Cta, CheckList, JsonLd } from "../../components/Blocks";
 import { site, plans, services } from "../../data/site";
 
@@ -34,7 +35,13 @@ export default function Pricing() {
           </div>
         </div>
       </section>
-      <section className="sec sec-mist">
+      <section className="sec sec-mist" id="calculator">
+        <div className="container">
+          <SectionHead eyebrow="Price calculator" title="Estimate your website cost" text="Pick what you need and see a rough range instantly." center />
+          <PriceCalculator />
+        </div>
+      </section>
+      <section className="sec">
         <div className="container">
           <SectionHead eyebrow="By service" title="Starting prices for each service" center />
           <div className="grid-3" data-stagger>

@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import Icon from "./Icon";
+import AutoVideo from "./AutoVideo";
 import { site, statusLabel, testimonials, SHOW_SAMPLES } from "../data/site";
 
 export function JsonLd({ data }) {
@@ -84,14 +85,16 @@ export function ServiceCard({ s }) {
   );
   return coming
     ? <article className="svc svc-coming">{inner}</article>
-    : <Link href={`/services/${s.slug}`} className="svc" aria-label={`${s.title} — learn more`}>{inner}</Link>;
+    : <Link href={`/services/${s.slug}`} className="svc" data-tilt aria-label={`${s.title} — learn more`}>{inner}<span className="spot" aria-hidden="true" /></Link>;
 }
 
 export function ProjectCard({ p, priority = false }) {
   return (
-    <Link href={`/work/${p.slug}`} className="proj">
+    <Link href={`/work/${p.slug}`} className="proj" data-tilt>
       <div className="proj-img">
         <Image src={p.image} alt={`${p.title} — ${p.category}`} fill sizes="(max-width: 700px) 100vw, (max-width: 1100px) 50vw, 33vw" priority={priority} />
+        {p.video && <AutoVideo src={p.video} poster={p.poster} className="proj-vid" label={`${p.title} demo video`} />}
+        {p.video && <span className="proj-play" aria-hidden="true"><Icon name="youtube" size={14} /> Demo video</span>}
         <span className={`tag ${p.label === "Demo project" ? "tag-demo" : ""}`}>{p.label}</span>
       </div>
       <div className="proj-body">
@@ -116,6 +119,29 @@ export function PostCard({ post }) {
         <span className="link">Read article <Icon name="arrow" size={16} /></span>
       </div>
     </Link>
+  );
+}
+
+export function DemoCard({ d }) {
+  return (
+    <Link href={`/demos/${d.slug}`} className="demo" data-tilt>
+      <div className="demo-img"><Image src={d.image} alt="" fill sizes="(max-width: 700px) 100vw, 33vw" /><span className="demo-live"><span className="live-dot" aria-hidden="true" /> Interactive demo</span></div>
+      <div className="demo-body">
+        <span className="svc-ic"><Icon name={d.icon} size={20} /></span>
+        <h3>{d.title}</h3>
+        <p>{d.text}</p>
+        <span className="link">Try it now <Icon name="arrow" size={16} /></span>
+      </div>
+    </Link>
+  );
+}
+
+export function DemoBanner({ service }) {
+  return (
+    <div className="demo-banner">
+      <span><Icon name="sparkle" size={16} /> This is a demo built with sample data to show what I can build.</span>
+      <Link href={service ? `/contact?service=${service}` : "/contact"}>Want one for your business? →</Link>
+    </div>
   );
 }
 
