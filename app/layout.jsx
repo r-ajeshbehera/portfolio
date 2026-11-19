@@ -1,5 +1,7 @@
 import "@fontsource-variable/inter";
 import "@fontsource-variable/manrope";
+import "@fontsource-variable/inter-tight";
+import "@fontsource-variable/geist";
 import "./globals.css";
 import Script from "next/script";
 import Navbar from "../components/Navbar";
@@ -20,7 +22,7 @@ export const metadata = {
   twitter: { card: "summary_large_image", title, description: site.description },
 };
 
-export const viewport = { width: "device-width", initialScale: 1, themeColor: "#0B1F33" };
+export const viewport = { width: "device-width", initialScale: 1, themeColor: "#143D33" };
 
 const orgJsonLd = {
   "@context": "https://schema.org",

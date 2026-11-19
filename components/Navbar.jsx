@@ -31,7 +31,7 @@ export default function Navbar() {
   const active = (href) => (href === "/" ? path === "/" : path.startsWith(href));
 
   return (
-    <header className={`nav ${scrolled ? "nav-scrolled" : ""}`}>
+    <header className={`nav ${scrolled ? "nav-scrolled" : ""} ${path === "/" ? "nav-home" : ""}`}>
       <div className="container nav-inner">
         <Link href="/" className="brand" aria-label={`${site.brand} home`}>
           <span className="brand-mark">RB</span>
@@ -42,7 +42,7 @@ export default function Navbar() {
             <Link key={l.href} href={l.href} className={active(l.href) ? "active" : ""} aria-current={active(l.href) ? "page" : undefined}>{l.label}</Link>
           ))}
         </nav>
-        <Link href="/contact" className="btn btn-primary btn-sm nav-cta"><Icon name="chat" size={16} /> Book a free call</Link>
+        <Link href="/contact" className="btn btn-primary btn-sm nav-cta">Book a call <span className="arw" aria-hidden="true"><Icon name="arrow" size={13} /></span></Link>
         <button className="nav-toggle" aria-expanded={open} aria-controls="mobile-menu" onClick={() => setOpen(!open)}>
           <Icon name={open ? "close" : "menu"} />
           <span className="sr-only">{open ? "Close menu" : "Open menu"}</span>

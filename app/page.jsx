@@ -1,179 +1,220 @@
 import Link from "next/link";
 import Image from "next/image";
 import Icon from "../components/Icon";
-import HeroVisual from "../components/HeroVisual";
-import ProjectFinder from "../components/ProjectFinder";
 import CaseSlider from "../components/CaseSlider";
-import { SectionHead, ServiceCard, FaqList, CtaBand, Steps } from "../components/Blocks";
-import { site, services, projects, reasons, process, industries, faqs } from "../data/agency";
+import ShowreelVideo from "../components/ShowreelVideo";
+import { site, services, projects, faqs } from "../data/agency";
 
 export const metadata = { alternates: { canonical: "/" } };
 
 // Honest numbers only — every value here is a fact, not a claim.
 const stats = [
-  { n: "3", l: "core services" },
-  { n: "3", l: "languages: English, Hindi, Odia" },
-  { n: "1:1", l: "you work with the founder" },
-  { n: "₹0", l: "first consultation" },
+  { icon: "globe", n: "3", l: "Core services" },
+  { icon: "language", n: "3", l: "Languages: EN · HI · OD" },
+  { icon: "users", n: "1:1", l: "Founder-led, start to finish" },
+  { icon: "file", n: "₹0", l: "First consultation" },
 ];
 
-const creds = [
-  { t: "MCA", s: "Silicon University, Bhubaneswar" },
-  { t: "Full Stack Java", s: "Summer Internship 2026" },
-  { t: "Cybersecurity", s: "Google Foundations (Coursera)" },
-  { t: "Placement Coordinator", s: "MCA batch, Silicon University" },
+const serviceFacts = {
+  "website-development": { n: "1–3 wks", l: "Typical delivery" },
+  "business-automation": { n: "Pilot", l: "Starting small, honestly" },
+  "sheets-and-trackers": { n: "Free", l: "Runs on Google Sheets" },
+};
+
+const steps = [
+  { when: "Day 1", icon: "chat", title: "Free consultation", text: "A short call to understand your business and the one problem you want solved. No obligation." },
+  { when: "Within days", icon: "file", title: "Written quote", text: "Scope, price and delivery date in writing, before any work starts." },
+  { when: "1–3 weeks", icon: "code", title: "Build & review", text: "You see a preview early, give feedback, and get regular updates while it's built." },
+  { when: "Launch day", icon: "check", title: "Launch & handover", text: "It goes live, and you receive every file and login with a walkthrough." },
 ];
 
-const trust = [
-  { icon: "file", title: "Written quote first", text: "Scope, price and date agreed before work starts" },
-  { icon: "users", title: "Direct with the founder", text: "You talk to the person building your project" },
-  { icon: "language", title: "English, Hindi, Odia", text: "Clear communication in your language" },
-  { icon: "github", title: "Open code samples", text: "Review my work publicly on GitHub" },
+const why = [
+  { title: "Founder-led", text: "You talk to the person who builds your project." },
+  { title: "Clear prices", text: "Free first call and a written quote, every time." },
+  { title: "Your language", text: "Simple explanations in English, Hindi or Odia." },
+  { title: "You own it", text: "All files and logins handed over at launch." },
 ];
+
+function Arrow() {
+  return <span className="arw" aria-hidden="true"><Icon name="arrow" size={14} /></span>;
+}
 
 export default function Home() {
-  const short = [process[0], process[2], process[4], process[7]];
+  const live = services.filter((s) => s.status !== "coming");
+  const real = projects.filter((p) => p.label !== "Demo project");
+  const tiles = ["/images/p1s1.png", "/images/p2-banner.png", "/images/p1s6.png", "/images/p2s1.png", "/images/p1-banner.png", "/images/p2s3.png", "/images/p1s7.png", "/images/p2s2.png"];
+
   return (
     <>
-      <section className="hero hero-center">
-        <div className="container">
-          <div className="hero-chips reveal" aria-hidden="true">
-            <span className="chip-ic c1"><Icon name="globe" size={16} /></span>
-            <span className="chip-ic c2"><Icon name="flow" size={16} /></span>
-            <span className="chip-ic c3"><Icon name="sheet" size={16} /></span>
-          </div>
-          <p className="eyebrow reveal">Digital studio · Bhubaneswar, Odisha</p>
-          <h1 className="reveal d1">
-            Websites <span className="inline-ic ic-blue" aria-hidden="true"><Icon name="globe" size={22} /></span> and
-            automation <span className="inline-ic ic-teal" aria-hidden="true"><Icon name="flow" size={22} /></span> that help
-            your business <span className="hl">grow.</span>
-          </h1>
-          <p className="lead reveal d1">Fast business websites, simple workflow automation and Google Sheets systems for startups and small businesses — so you win more enquiries and spend less time on manual work.</p>
-          <div className="hero-ctas center reveal d2">
-            <Link href="/contact" className="btn btn-primary">Discuss Your Project <Icon name="arrow" size={18} /></Link>
-            <Link href="/services" className="btn btn-ghost">Explore Services</Link>
-          </div>
-          <ProjectFinder />
-          <p className="hero-note center"><Icon name="check" size={16} /> Free first consultation · No obligation · Written quote before any work</p>
-          <dl className="hero-stats reveal d2">
-            {stats.map((x) => <div key={x.l}><dt>{x.n}</dt><dd>{x.l}</dd></div>)}
-          </dl>
-        </div>
-      </section>
-
-      <section className="creds" aria-label="Credentials">
-        <div className="container creds-row">
-          {creds.map((c) => (
-            <div key={c.t} className="cred">
-              <svg className="laurel" viewBox="0 0 24 40" aria-hidden="true"><path d="M20 38C8 32 3 22 5 8M7 30c-3 0-5-2-5-4 3 0 5 2 5 4Zm-2-7c-3-1-4-3-4-5 3 1 4 3 4 5Zm0-7c-2-1-3-4-2-6 2 2 2 4 2 6Zm1-7C5 7 5 4 7 2c1 3 0 5-1 7Z" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round"/></svg>
-              <div><b>{c.t}</b><span>{c.s}</span></div>
-              <svg className="laurel r" viewBox="0 0 24 40" aria-hidden="true"><path d="M20 38C8 32 3 22 5 8M7 30c-3 0-5-2-5-4 3 0 5 2 5 4Zm-2-7c-3-1-4-3-4-5 3 1 4 3 4 5Zm0-7c-2-1-3-4-2-6 2 2 2 4 2 6Zm1-7C5 7 5 4 7 2c1 3 0 5-1 7Z" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round"/></svg>
+      {/* HERO */}
+      <section className="lw-hero">
+        <div className="container lw-hero-grid">
+          <div className="lw-hero-copy">
+            <span className="pill pill-terra reveal">Digital studio · Bhubaneswar, Odisha</span>
+            <h1 className="reveal d1">Websites and automation, built to grow your business.</h1>
+            <p className="reveal d1">Fast business websites, simple workflow automation and Google Sheets systems for startups and small businesses — so you win more enquiries and spend less time on manual work.</p>
+            <div className="lw-ctas reveal d2">
+              <Link href="/contact" className="lbtn lbtn-terra">Free consultation <Arrow /></Link>
+              <Link href="/services" className="lbtn lbtn-line">Our services <Arrow /></Link>
             </div>
-          ))}
-        </div>
-      </section>
-
-      <section className="section section-tight">
-        <div className="container bento">
-          <div className="bento-card bento-wide reveal">
-            <div className="bento-copy">
-              <p className="eyebrow">Automation preview</p>
-              <h2>Every enquiry captured, replied and tracked</h2>
-              <p>An example of the kind of simple system I build: forms feed a sheet, the customer gets an instant reply, and you see what needs follow-up.</p>
-              <Link href="/services/business-automation" className="link-arrow">How automation works <Icon name="arrow" size={16} /></Link>
-            </div>
-            <HeroVisual />
           </div>
-          {trust.map((t, i) => (
-            <div key={t.title} className={`bento-card feature reveal d${i % 4}`}>
-              <span className="feature-ic"><Icon name={t.icon} size={20} /></span>
-              <h3>{t.title}</h3>
-              <p>{t.text}</p>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      <section className="section">
-        <div className="container">
-          <SectionHead eyebrow="Services" title="What I can build for you" text="Start with the problem. I'll recommend the simplest solution that works — nothing you don't need." />
-          <div className="grid-3">
-            {services.filter((s) => s.status !== "coming").map((s, i) => <ServiceCard key={s.slug} s={s} i={i} />)}
+          <div className="lw-hero-photo reveal d2">
+            <Image src="/images/profile.jpg" alt={`${site.founder}, founder of ${site.brand}`} width={842} height={1264} priority sizes="(max-width: 900px) 70vw, 420px" />
           </div>
-          <p className="more-note reveal">Coming soon: digital design and ready-made templates. <Link href="/services">See all services</Link></p>
         </div>
-      </section>
-
-      <section className="section section-alt">
-        <div className="container">
-          <SectionHead eyebrow="Why choose us" title="Built on clarity and trust" text="A small, focused studio means you get direct attention and honest advice." />
-          <div className="grid-3">
-            {reasons.map((r, i) => (
-              <div key={r.title} className={`reason reveal d${i % 3}`}>
-                <span className="reason-check"><Icon name="check" size={18} /></span>
-                <div><h3>{r.title}</h3><p>{r.text}</p></div>
+        <div className="lw-stats">
+          <div className="container lw-stats-row">
+            {stats.map((s) => (
+              <div key={s.l} className="lw-stat">
+                <span className="lw-stat-ic"><Icon name={s.icon} size={20} /></span>
+                <div><b>{s.n}</b><span>{s.l}</span></div>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      <section className="section">
+      {/* ABOUT + VIDEO */}
+      <section className="lw-sec">
         <div className="container">
-          <div className="head-row">
-            <SectionHead eyebrow="Our work" title="Featured projects" text="Real software I've built or worked on, clearly labelled. Demo projects are always marked as demos." />
-            <Link href="/work" className="link-arrow reveal">View all work <Icon name="arrow" size={16} /></Link>
+          <div className="lw-head">
+            <div>
+              <span className="pill pill-green reveal">About the studio</span>
+              <h2 className="reveal d1">Built around your business.</h2>
+            </div>
+            <p className="reveal d1">One founder, a written quote before any work, and simple tools you can run yourself. Here's the kind of system I build: an enquiry comes in, gets an instant reply, and is saved for follow-up.</p>
           </div>
-          <CaseSlider items={projects.filter((p) => p.label !== "Demo project")} />
+          <ShowreelVideo />
         </div>
       </section>
 
-      <section className="section section-navy">
+      {/* SERVICES */}
+      <section className="lw-sec lw-cream">
         <div className="container">
-          <SectionHead eyebrow="Industries" title="Who I can help" text="Practical digital tools for businesses that want to look professional and save time." />
-          <div className="grid-3">
-            {industries.map((x, i) => (
-              <div key={x.title} className={`ind-card reveal d${i % 3}`}><h3>{x.title}</h3><p>{x.text}</p></div>
+          <div className="lw-head">
+            <div>
+              <span className="pill pill-terra reveal">Services</span>
+              <h2 className="reveal d1">Focused services, one standard.</h2>
+            </div>
+            <div className="reveal d1">
+              <p>Start with the problem. I'll recommend the simplest solution that works — nothing you don't need.</p>
+              <Link href="/services" className="lbtn lbtn-outline">View all services <Arrow /></Link>
+            </div>
+          </div>
+          <div className="lw-svc-row">
+            {live.map((s, i) => {
+              const f = serviceFacts[s.slug] || { n: "", l: "" };
+              return (
+                <Link key={s.slug} href={`/services/${s.slug}`} className={`lw-svc reveal d${i % 3}`}>
+                  <span className="lw-svc-num">{String(i + 1).padStart(2, "0")}</span>
+                  <span className="lw-svc-ic"><Icon name={s.icon} size={56} /></span>
+                  <h3>{s.title}</h3>
+                  <p>{s.short}</p>
+                  <div className="lw-svc-foot">
+                    <div><b>{f.n}</b><span>{f.l}</span></div>
+                    <span className="lw-svc-link">Explore service <Icon name="arrow" size={14} /></span>
+                  </div>
+                </Link>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
+      {/* PROCESS */}
+      <section className="lw-sec">
+        <div className="container lw-steps-grid">
+          <div className="lw-steps-intro">
+            <span className="pill pill-terra reveal">How I work</span>
+            <h2 className="reveal d1">Four steps, no surprises.</h2>
+            <p className="reveal d1">You always know what's being built, what it costs and when it will be ready.</p>
+            <Link href="/contact" className="lbtn lbtn-terra reveal d2">Start with a free call <Arrow /></Link>
+          </div>
+          <ol className="lw-steps">
+            {steps.map((s, i) => (
+              <li key={s.title} className={`lw-step reveal d${i % 4}`}>
+                <span className="lw-step-ic"><Icon name={s.icon} size={34} /></span>
+                <div className="lw-step-body">
+                  <div className="lw-step-top"><span className="tag-terra">Step {String(i + 1).padStart(2, "0")}</span><span className="muted">{s.when}</span></div>
+                  <h3>{s.title}</h3>
+                  <p>{s.text}</p>
+                </div>
+              </li>
+            ))}
+          </ol>
+        </div>
+      </section>
+
+      {/* WHY */}
+      <section className="lw-why">
+        <div className="container lw-why-grid">
+          {why.slice(0, 2).map((w, i) => (
+            <div key={w.title} className={`lw-why-card c${i + 1} reveal`}><span className="dot">{String(i + 1).padStart(2, "0")}</span><h3>{w.title}</h3><p>{w.text}</p></div>
+          ))}
+          <div className="lw-why-center reveal d1">
+            <span className="pill pill-terra">Why work with me</span>
+            <h2>Why clients choose a small studio.</h2>
+            <p>Direct attention, honest advice and work you can maintain yourself.</p>
+            <Link href="/about" className="lbtn lbtn-terra">About the founder <Arrow /></Link>
+          </div>
+          {why.slice(2).map((w, i) => (
+            <div key={w.title} className={`lw-why-card c${i + 3} reveal d2`}><span className="dot">{String(i + 3).padStart(2, "0")}</span><h3>{w.title}</h3><p>{w.text}</p></div>
+          ))}
+        </div>
+      </section>
+
+      {/* WORK */}
+      <section className="lw-sec">
+        <div className="container">
+          <div className="lw-head">
+            <div>
+              <span className="pill pill-green reveal">Our work</span>
+              <h2 className="reveal d1">Real projects, clearly labelled.</h2>
+            </div>
+            <div className="reveal d1">
+              <p>Software I've built or worked on. Team projects say so, and demo projects are always marked as demos.</p>
+              <Link href="/work" className="lbtn lbtn-outline">All projects <Arrow /></Link>
+            </div>
+          </div>
+          <CaseSlider items={real} />
+        </div>
+      </section>
+
+      {/* FAQ */}
+      <section className="lw-sec lw-cream">
+        <div className="container lw-faq-grid">
+          <div>
+            <span className="pill pill-terra reveal">FAQ</span>
+            <h2 className="reveal d1">Questions before you call.</h2>
+            <div className="lw-ask reveal d2">
+              <Image src="/images/profile.jpg" alt="" width={842} height={1264} sizes="320px" />
+              <h3>Still have a question?</h3>
+              <p>Write to me and I'll reply personally.</p>
+              <Link href="/contact" className="lbtn lbtn-terra">Ask me <Arrow /></Link>
+            </div>
+          </div>
+          <div className="lw-faq">
+            {faqs.slice(0, 6).map((f, i) => (
+              <details key={f.q} className="lw-q reveal" open={i === 0}>
+                <summary><span>{f.q}</span><span className="lw-q-ic"><Icon name="plus" size={16} /></span></summary>
+                <p>{f.a}</p>
+              </details>
             ))}
           </div>
-          <p className="more-note on-dark reveal"><Link href="/industries">How services apply to each industry →</Link></p>
         </div>
       </section>
 
-      <section className="section">
-        <div className="container">
-          <div className="head-row">
-            <SectionHead eyebrow="How it works" title="A clear process, start to finish" text="You always know what's being built, what it costs and when it will be ready." />
-            <Link href="/process" className="link-arrow reveal">Full process <Icon name="arrow" size={16} /></Link>
-          </div>
-          <Steps items={short} />
+      {/* CTA */}
+      <section className="lw-cta">
+        <div className="lw-cta-tiles" aria-hidden="true">
+          {[...tiles, ...tiles].map((t, i) => <span key={i} style={{ backgroundImage: `url(${t})` }} />)}
+        </div>
+        <div className="container lw-cta-copy">
+          <h2>Not sure where to start?</h2>
+          <p>Tell me about your business and the problem you want solved. I'll point you in the right direction — free.</p>
+          <Link href="/contact" className="lbtn lbtn-terra">Book a free consultation <Arrow /></Link>
         </div>
       </section>
-
-      <section className="section section-alt">
-        <div className="container about-teaser">
-          <div className="about-photo reveal">
-            <Image src="/images/profile.jpg" alt={`${site.founder}, founder of ${site.brand}`} width={420} height={520} />
-          </div>
-          <div className="reveal d1">
-            <p className="eyebrow">About the founder</p>
-            <h2>Hi, I'm Rajesh Behera.</h2>
-            <p className="lead">I'm a developer and MCA student at Silicon University, Bhubaneswar, working mainly with Java, SQL and modern web tools. I started this studio to help local businesses use technology in a simple, practical way.</p>
-            <p>At university I serve as Class Representative and Placement Coordinator — roles where people rely on me to communicate clearly and get things done. I bring the same approach to every project.</p>
-            <Link href="/about" className="btn btn-ghost">More about me</Link>
-          </div>
-        </div>
-      </section>
-
-      <section className="section">
-        <div className="container narrow">
-          <SectionHead eyebrow="FAQ" title="Common questions" center />
-          <FaqList items={faqs.slice(0, 5)} />
-          <p className="more-note center reveal"><Link href="/faq">See all questions</Link></p>
-        </div>
-      </section>
-
-      <CtaBand />
     </>
   );
 }
