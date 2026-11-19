@@ -11,6 +11,7 @@ export default function Footer() {
         <div className="ftr-brand">
           <Link href="/" className="logo logo-light"><span className="logo-mark">RB</span><span className="logo-text">Rajesh Behera<small>Digital Studio</small></span></Link>
           <p>{site.tagline} Based in {site.location}, working with businesses across India.</p>
+          <p className="ftr-areas">Serving Bhubaneswar, Cuttack, Puri, Odisha and clients across India — online.</p>
           <div className="ftr-social">
             <a href={site.social.linkedin} target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"><Icon name="linkedin" size={18} /></a>
             <a href={site.social.github} target="_blank" rel="noopener noreferrer" aria-label="GitHub"><Icon name="github" size={18} /></a>

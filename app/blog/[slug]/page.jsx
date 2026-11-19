@@ -24,7 +24,7 @@ export default async function Post({ params }) {
   return (
     <>
       <JsonLd data={ld} />
-      <PageHero crumbs={[{ name: "Insights", href: "/blog" }, { name: p.category, href: `/blog/${p.slug}` }]} eyebrow={p.category} title={p.title}>
+      <PageHero crumbs={[{ name: "Insights", href: "/blog" }, { name: p.title.length > 40 ? p.title.slice(0, 40) + "…" : p.title, href: `/blog/${p.slug}` }]} eyebrow={p.category} title={p.title}>
         <div className="phero-meta"><span><Icon name="calendar" size={16} /> <time dateTime={p.date}>{d}</time></span><span><Icon name="clock" size={16} /> {p.read}</span><span>By {site.founder}</span></div>
       </PageHero>
       <section className="sec" style={{ paddingTop: 0 }}>

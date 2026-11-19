@@ -30,7 +30,7 @@ export default function Header() {
   return (
     <header className={`hdr ${scrolled ? "is-scrolled" : ""} ${open ? "is-open" : ""}`}>
       <div className="hdr-bar container">
-        <Link href="/" className="logo" aria-label={`${site.brand} — home`}>
+        <Link href="/" className="logo">
           <span className="logo-mark" aria-hidden="true">RB</span>
           <span className="logo-text">Rajesh Behera<small>Digital Studio</small></span>
         </Link>

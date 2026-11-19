@@ -5,6 +5,7 @@ import Script from "next/script";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import Reveal from "../components/Reveal";
+import MobileBar from "../components/MobileBar";
 import { JsonLd } from "../components/Blocks";
 import { site, services } from "../data/site";
 
@@ -18,11 +19,12 @@ export const metadata = {
   keywords: ["website design Bhubaneswar", "web development Odisha", "SEO services Bhubaneswar", "small business website India", "business automation", "Google Sheets dashboard", "website maintenance"],
   authors: [{ name: site.founder }],
   creator: site.founder,
-  alternates: { canonical: "/" },
   openGraph: { title, description: site.description, url: site.url, siteName: site.brand, type: "website", locale: "en_IN" },
   twitter: { card: "summary_large_image", title, description: site.description },
   robots: { index: true, follow: true, googleBot: { index: true, follow: true, "max-image-preview": "large", "max-snippet": -1 } },
   formatDetection: { telephone: false },
+  alternates: { canonical: "/", types: { "application/rss+xml": [{ url: "/feed.xml", title: `${site.brand} — Insights` }] } },
+  ...(process.env.NEXT_PUBLIC_GSC_VERIFICATION ? { verification: { google: process.env.NEXT_PUBLIC_GSC_VERIFICATION } } : {}),
 };
 
 export const viewport = { width: "device-width", initialScale: 1, themeColor: "#0A1022" };
@@ -63,6 +65,7 @@ export default function RootLayout({ children }) {
         <main id="main">{children}</main>
         <Footer />
         <Reveal />
+        <MobileBar />
         {gaId && (
           <>
             <Script src={`https://www.googletagmanager.com/gtag/js?id=${gaId}`} strategy="afterInteractive" />

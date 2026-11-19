@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { services, site, budgets as budgetOptions } from "../data/site";
 import Icon from "./Icon";
 
-const empty = { name: "", email: "", org: "", service: "", budget: "", details: "", company: "" };
+const empty = { name: "", email: "", phone: "", org: "", service: "", budget: "", details: "", company: "" };
 
 function validate(v) {
   const e = {};
@@ -50,7 +50,7 @@ export default function ContactForm() {
     const first = Object.keys(found)[0];
     if (first) { form.current.elements[first].focus(); return; }
     setState("sending");
-    const extra = [values.org && `Company: ${values.org}`, values.budget && `Budget: ${values.budget}`].filter(Boolean).join("\n");
+    const extra = [values.phone && `Phone/WhatsApp: ${values.phone}`, values.org && `Company: ${values.org}`, values.budget && `Budget: ${values.budget}`].filter(Boolean).join("\n");
     try {
       const res = await fetch("/api/contact", {
         method: "POST",
@@ -82,7 +82,7 @@ export default function ContactForm() {
         <div className="field"><label htmlFor="email">Business email <span aria-hidden="true">*</span></label><input {...field("email")} type="email" autoComplete="email" required />{err("email")}</div>
       </div>
       <div className="form-row">
-        <div className="field"><label htmlFor="org">Company name <span className="opt">(optional)</span></label><input {...field("org")} autoComplete="organization" /></div>
+        <div className="field"><label htmlFor="phone">Phone / WhatsApp <span className="opt">(optional)</span></label><input {...field("phone")} type="tel" autoComplete="tel" inputMode="tel" placeholder="+91" /></div>
         <div className="field">
           <label htmlFor="service">Service required <span aria-hidden="true">*</span></label>
           <select {...field("service")} required>
@@ -93,6 +93,8 @@ export default function ContactForm() {
           {err("service")}
         </div>
       </div>
+      <div className="form-row">
+      <div className="field"><label htmlFor="org">Company name <span className="opt">(optional)</span></label><input {...field("org")} autoComplete="organization" /></div>
       <div className="field">
         <label htmlFor="budget">Estimated budget <span className="opt">(optional)</span></label>
         <select {...field("budget")}>
@@ -100,12 +102,13 @@ export default function ContactForm() {
           {budgetOptions.map((b) => <option key={b}>{b}</option>)}
         </select>
       </div>
+      </div>
       <div className="field"><label htmlFor="details">Project description <span aria-hidden="true">*</span></label><textarea {...field("details")} rows={5} placeholder="What does your business do, and what would you like to improve?" required />{err("details")}</div>
       <div className="hp" aria-hidden="true"><label htmlFor="company">Leave empty</label><input id="company" name="company" tabIndex={-1} autoComplete="off" value={values.company} onChange={change} /></div>
       <button className="btn btn-primary btn-lg btn-block" type="submit" disabled={state === "sending"}>{state === "sending" ? "Sending…" : <>Send enquiry <Icon name="arrow" size={18} /></>}</button>
       <div role="status" aria-live="polite" className="form-status">
         {state === "failed" && (
-          <p className="field-error">Sorry, your message couldn't be sent. Please email me directly at <a href={`mailto:${site.email}`}>{site.email}</a>.</p>
+          <p className="form-fallback">Sorry, the form couldn't send right now — your details are safe. <a href={`mailto:${site.email}?subject=${encodeURIComponent("Project enquiry: " + (values.service || "Website"))}&body=${encodeURIComponent(`Name: ${values.name}\nEmail: ${values.email}\nPhone: ${values.phone}\nCompany: ${values.org}\nBudget: ${values.budget}\n\n${values.details}`)}`}>Click here to send it by email instead</a>.</p>
         )}
       </div>
       <p className="form-note">Your details are used only to reply to your enquiry. See the <a href="/privacy">Privacy Policy</a>.</p>
