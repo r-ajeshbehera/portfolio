@@ -1,30 +1,24 @@
 {
-  "name": "rajesh-portfolio",
-  "version": "0.1.0",
+  "name": "rajesh-behera-digital-studio",
+  "version": "1.0.0",
   "private": true,
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start",
-    "lint": "next lint"
+    "start": "next start"
   },
   "dependencies": {
+    "@fontsource-variable/inter": "^5.2.5",
+    "@fontsource-variable/manrope": "^5.2.5",
     "@supabase/supabase-js": "^2.50.2",
     "next": "15.3.8",
     "react": "^18.3.1",
-    "react-dom": "^18.3.1",
-    "swiper": "^11.2.8",
-    "uuid": "^11.1.0"
+    "react-dom": "^18.3.1"
   },
   "devDependencies": {
     "autoprefixer": "^10.4.20",
-    "css-loader": "^7.1.2",
-    "eslint": "^9.29.0",
-    "eslint-config-next": "^15.3.4",
     "postcss": "^8.5.6",
     "postcss-import": "^16.1.0",
-    "postcss-loader": "^8.1.1",
-    "postcss-nested": "^6.2.0",
-    "style-loader": "^4.0.0"
+    "postcss-nested": "^6.2.0"
   }
 }

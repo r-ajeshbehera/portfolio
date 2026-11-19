@@ -1,62 +1,21 @@
 import { ImageResponse } from "next/og";
 
-export const runtime = "edge";
-export const alt = "Rajesh Behera - Portfolio";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
+export const alt = "Rajesh Behera Digital Studio";
 
-// Next.js special file convention: generates the default og:image / twitter
-// card image for any route that doesn't define its own opengraph-image.jsx
-// (blog and project detail pages override this with their own dynamic
-// version). Rendered as an actual PNG via next/og -- no static image asset
-// needed.
-export default async function Image() {
+export default function OG() {
   return new ImageResponse(
     (
-      <div
-        style={{
-          height: "100%",
-          width: "100%",
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          justifyContent: "center",
-          background: "linear-gradient(145deg, #1f2937, #111827)",
-          color: "#ffffff",
-          fontFamily: "sans-serif",
-        }}
-      >
-        <div
-          style={{
-            display: "flex",
-            width: 120,
-            height: 120,
-            borderRadius: 28,
-            background: "linear-gradient(145deg, #60a5fa, #2563eb)",
-            alignItems: "center",
-            justifyContent: "center",
-            fontSize: 56,
-            fontWeight: 700,
-            marginBottom: 36,
-          }}
-        >
-          RB
+      <div style={{ width: "100%", height: "100%", display: "flex", flexDirection: "column", justifyContent: "space-between", padding: 72, background: "#0B1F33", color: "#fff", fontFamily: "sans-serif" }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 20 }}>
+          <div style={{ width: 72, height: 72, borderRadius: 16, background: "#2563EB", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 32, fontWeight: 800 }}>RB</div>
+          <div style={{ fontSize: 34, fontWeight: 700 }}>Rajesh Behera Digital Studio</div>
         </div>
-        <div style={{ display: "flex", fontSize: 64, fontWeight: 700 }}>
-          Rajesh Behera
-        </div>
-        <div
-          style={{
-            display: "flex",
-            fontSize: 32,
-            color: "#9ca3af",
-            marginTop: 16,
-          }}
-        >
-          Aspiring Software Engineer
-        </div>
+        <div style={{ fontSize: 64, fontWeight: 800, lineHeight: 1.1, maxWidth: 950 }}>Websites and automation that help your business grow.</div>
+        <div style={{ fontSize: 28, color: "#94A3B8" }}>Bhubaneswar, Odisha · rajeshbehera.vercel.app</div>
       </div>
     ),
-    { ...size }
+    size
   );
 }

@@ -1,90 +1,39 @@
-"use client";
+import Icon from "../../components/Icon";
+import ContactForm from "../../components/ContactForm";
+import { PageHero } from "../../components/Blocks";
+import { site } from "../../data/agency";
 
-import FeedbackForm from '../../components/FeedbackForm';
-import FeedbackList from '../../components/FeedbackList';
-import Image from 'next/image';
-import Link from 'next/link';
+export const metadata = { title: "Contact", description: "Discuss your website, automation or spreadsheet project with Rajesh Behera Digital Studio.", alternates: { canonical: "/contact" } };
 
 export default function Contact() {
   return (
-    <section className="section contact-section">
-      <div className="container">
-        <h2>Contact Me</h2>
-        <p className="centered-text">
-          I am actively seeking internship and entry-level Software Engineer opportunities.
-          Feel free to reach out for any relevant roles or professional discussions.
-        </p>
-
-        <div className="card contact-card">
-          <h3>Professional Contact</h3>
-
-          <div className="contact-links">
-
-            <div className="contact-row">
-              <Link
-                href="mailto:rajeshbehera.works@gmail.com"
-                className="contact-item"
-              >
-                <Image
-                  src="/images/m-icon.png"
-                  alt="Email"
-                  width={40}
-                  height={40}
-                  className="contact-icon"
-                />
-                <span className="icon-label">Email (Primary)</span>
-              </Link>
-
-              <Link
-                href="https://www.linkedin.com/in/rajesh-behera-695a0224b?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app"
-                className="contact-item"
-                target="_blank"
-              >
-                <Image
-                  src="/images/i-icon.png"
-                  alt="LinkedIn"
-                  width={40}
-                  height={40}
-                  className="contact-icon"
-                />
-                <span className="icon-label">LinkedIn Profile</span>
-              </Link>
+    <>
+      <PageHero eyebrow="Contact" title="Let's discuss your project" text="Tell me about your business and what you'd like to improve. I'll reply with questions or a time for a free call." />
+      <section className="section">
+        <div className="container contact-grid">
+          <ContactForm />
+          <aside className="contact-side">
+            <div className="card">
+              <h2>Other ways to reach me</h2>
+              <ul className="contact-list dark">
+                <li><Icon name="mail" size={20} /><div><b>Email</b><a href={`mailto:${site.email}`}>{site.email}</a></div></li>
+                {site.whatsapp && <li><Icon name="chat" size={20} /><div><b>WhatsApp</b><a href={`https://wa.me/${site.whatsapp}`} target="_blank" rel="noopener noreferrer">Message on WhatsApp</a></div></li>}
+                <li><Icon name="pin" size={20} /><div><b>Location</b><span>{site.location}</span></div></li>
+                <li><Icon name="linkedin" size={20} /><div><b>LinkedIn</b><a href={site.social.linkedin} target="_blank" rel="noopener noreferrer">Connect on LinkedIn</a></div></li>
+              </ul>
+              {site.responseTime && <p className="muted small">I usually reply {site.responseTime}.</p>}
             </div>
-
-            <div className="contact-row">
-              <Link
-                href="https://github.com/r-ajeshbehera"
-                className="contact-item"
-                target="_blank"
-              >
-                <Image
-                  src="/images/g-icon.png"
-                  alt="GitHub"
-                  width={40}
-                  height={40}
-                  className="contact-icon"
-                />
-                <span className="icon-label">GitHub Profile</span>
-              </Link>
+            <div className="card highlight">
+              <h2>What happens next?</h2>
+              <ol className="next-list">
+                <li>I read your message and reply by email.</li>
+                <li>We have a short free call to understand your needs.</li>
+                <li>You receive a written quote with scope, price and date.</li>
+              </ol>
             </div>
-
-            <div className="address-item">
-              <p>Balangir, Odisha, India</p>
-            </div>
-
-          </div>
+          </aside>
         </div>
-
-        <div className="card-spacing"></div>
-
-        <div className="feedback-form-container">
-          <h3 className="feedback-form-title">Connect / Message</h3>
-          <FeedbackForm />
-        </div>
-
-        <FeedbackList />
-
-      </div>
-    </section>
+      </section>
+    </>
   );
 }

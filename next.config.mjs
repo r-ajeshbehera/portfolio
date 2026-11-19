@@ -1,10 +1,16 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
-  // Produces a self-contained .next/standalone build (only the files needed
-  // to run the app, with node_modules pruned to production deps) -- makes
-  // the Docker runtime image much smaller and avoids copying node_modules.
-  output: 'standalone',
+  async redirects() {
+    return [
+      { source: "/projects", destination: "/work", permanent: true },
+      { source: "/projects/:path*", destination: "/work", permanent: true },
+      { source: "/blog", destination: "/", permanent: false },
+      { source: "/blog/:path*", destination: "/", permanent: false },
+      { source: "/products", destination: "/services", permanent: false },
+      { source: "/youtube", destination: "/about", permanent: false },
+    ];
+  },
 };
 
 export default nextConfig;
