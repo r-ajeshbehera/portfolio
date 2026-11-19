@@ -2,8 +2,8 @@
 
 import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
-import { services, site } from "../data/agency";
-import { budgets as budgetOptions } from "./ProjectFinder";
+import { services, site, budgets as budgetOptions } from "../data/site";
+import Icon from "./Icon";
 
 const empty = { name: "", email: "", org: "", service: "", budget: "", details: "", company: "" };
 
@@ -76,7 +76,7 @@ export default function ContactForm() {
   const err = (name) => errors[name] && <p className="field-error" id={`${name}-error`}>{errors[name]}</p>;
 
   return (
-    <form ref={form} className="card form" onSubmit={submit} noValidate>
+    <form ref={form} className="form" onSubmit={submit} noValidate>
       <div className="form-row">
         <div className="field"><label htmlFor="name">Full name <span aria-hidden="true">*</span></label><input {...field("name")} autoComplete="name" required />{err("name")}</div>
         <div className="field"><label htmlFor="email">Business email <span aria-hidden="true">*</span></label><input {...field("email")} type="email" autoComplete="email" required />{err("email")}</div>
@@ -102,7 +102,7 @@ export default function ContactForm() {
       </div>
       <div className="field"><label htmlFor="details">Project description <span aria-hidden="true">*</span></label><textarea {...field("details")} rows={5} placeholder="What does your business do, and what would you like to improve?" required />{err("details")}</div>
       <div className="hp" aria-hidden="true"><label htmlFor="company">Leave empty</label><input id="company" name="company" tabIndex={-1} autoComplete="off" value={values.company} onChange={change} /></div>
-      <button className="btn btn-primary btn-block" type="submit" disabled={state === "sending"}>{state === "sending" ? "Sending…" : "Send enquiry"}</button>
+      <button className="btn btn-primary btn-lg btn-block" type="submit" disabled={state === "sending"}>{state === "sending" ? "Sending…" : <>Send enquiry <Icon name="arrow" size={18} /></>}</button>
       <div role="status" aria-live="polite" className="form-status">
         {state === "failed" && (
           <p className="field-error">Sorry, your message couldn't be sent. Please email me directly at <a href={`mailto:${site.email}`}>{site.email}</a>.</p>

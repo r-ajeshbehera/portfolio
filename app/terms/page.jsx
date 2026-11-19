@@ -1,13 +1,13 @@
 import { PageHero } from "../../components/Blocks";
-import { site } from "../../data/agency";
+import { site } from "../../data/site";
 
 export const metadata = { title: "Terms and Conditions", alternates: { canonical: "/terms" } };
 
 export default function Terms() {
   return (
     <>
-      <PageHero eyebrow="Legal" title="Terms and Conditions" text="Last updated: November 2026" />
-      <section className="section">
+      <PageHero crumbs={[{ name: "Terms", href: "/terms" }]} eyebrow="Legal" title="Terms and Conditions" text="Last updated: November 2026" />
+      <section className="sec">
         <div className="container narrow prose">
           <p className="note">These are general website terms in plain language. They have not been reviewed by a lawyer. Each project is governed by its own written quote.</p>
           <h2>Using this website</h2>

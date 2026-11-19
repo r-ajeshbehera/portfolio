@@ -1,52 +1,58 @@
 import Link from "next/link";
-import Icon from "../../components/Icon";
-import { PageHero, SectionHead, CtaBand } from "../../components/Blocks";
+import Accordion from "../../components/Accordion";
+import { PageHero, SectionHead, Cta, CheckList, JsonLd } from "../../components/Blocks";
+import { site, plans, services } from "../../data/site";
 
-export const metadata = { title: "Pricing", description: "How pricing works: every project gets a written, custom quote.", alternates: { canonical: "/pricing" } };
+export const metadata = { title: "Pricing — Website Design & SEO Packages", description: "Transparent starting prices for business websites, SEO, automation and website care. Every project gets a written quote first.", alternates: { canonical: "/pricing" } };
 
-const tiers = [
-  { name: "Starter", for: "A simple landing page, one tracker, or one small automation.", items: ["Clear, fixed scope", "One round of revisions", "Handover walkthrough"] },
-  { name: "Business", for: "A multi-page business website or a connected set of tools.", items: ["Planned page structure", "Two rounds of revisions", "Basic SEO setup", "Handover walkthrough"], featured: true },
-  { name: "Custom", for: "Web applications or larger automation projects.", items: ["Requirements workshop", "Milestone-based delivery", "Revisions per milestone", "Support terms agreed in writing"] },
+const pfaq = [
+  { q: "Are these fixed prices?", a: "They're starting prices for typical projects. After a free call you receive a written quote with the exact price for your scope." },
+  { q: "How do payments work?", a: "Usually 50% to start and 50% at launch for smaller projects, or milestone payments for larger ones — always agreed in writing." },
+  { q: "What's not included?", a: "Third-party costs such as your domain name, hosting, paid plugins or stock photos are listed separately in your quote." },
+  { q: "Do you offer discounts for startups or NGOs?", a: "Ask me. I'm happy to discuss a scope that fits your budget." },
 ];
 
 export default function Pricing() {
+  const ld = { "@context": "https://schema.org", "@type": "OfferCatalog", name: `${site.brand} pricing`, itemListElement: plans.filter((p) => p.price.startsWith("₹")).map((p) => ({ "@type": "Offer", name: p.name, description: p.for, priceCurrency: "INR", price: p.price.replace(/[^\d]/g, "") })) };
   return (
     <>
-      <PageHero eyebrow="Pricing" title="Transparent, custom quotes" text="Every business is different, so I don't publish fixed prices. You get a written quote with the exact price before any work starts." />
-      <section className="section">
-        <div className="container grid-3">
-          {tiers.map((t, i) => (
-            <article key={t.name} className={`card tier reveal d${i} ${t.featured ? "tier-featured" : ""}`}>
-              <h2>{t.name}</h2>
-              <p className="muted">{t.for}</p>
-              <p className="price">Custom quote</p>
-              <ul className="check-list">{t.items.map((x) => <li key={x}><Icon name="check" size={18} />{x}</li>)}</ul>
-              <Link href="/contact" className={`btn ${t.featured ? "btn-primary" : "btn-ghost"} btn-block`}>Request a quote</Link>
-            </article>
-          ))}
-        </div>
-      </section>
-      <section className="section section-alt">
-        <div className="container split">
-          <div className="reveal">
-            <SectionHead eyebrow="What's in every quote" title="No surprises" />
-            <ul className="check-list">
-              <li><Icon name="check" size={18} />What's included — and what isn't</li>
-              <li><Icon name="check" size={18} />Total price and payment milestones</li>
-              <li><Icon name="check" size={18} />Number of revision rounds</li>
-              <li><Icon name="check" size={18} />Delivery date</li>
-              <li><Icon name="check" size={18} />Support after launch, if included</li>
-            </ul>
-          </div>
-          <div className="card highlight reveal d1">
-            <p className="eyebrow">Payments</p>
-            <h2>Milestone-based</h2>
-            <p>Payment milestones are agreed in writing in your quote, so you pay as visible progress is made. Third-party costs such as domain or hosting are listed separately.</p>
+      <JsonLd data={ld} />
+      <PageHero crumbs={[{ name: "Pricing", href: "/pricing" }]} eyebrow="Pricing" title="Simple, transparent pricing" text="Clear starting prices, a written quote for every project, and no hidden costs." />
+      <section className="sec">
+        <div className="container">
+          <div className="plans plans-light" data-stagger>
+            {plans.map((p) => (
+              <article key={p.name} className={`plan ${p.featured ? "plan-hot" : ""}`} data-reveal>
+                {p.featured && <span className="plan-flag">Most popular</span>}
+                <h3>{p.name}</h3>
+                <p className="plan-for">{p.for}</p>
+                <p className="plan-price"><b>{p.price}</b> <span>{p.unit}</span></p>
+                <CheckList items={p.items} />
+                <Link href="/contact" className={`btn btn-block ${p.featured ? "btn-primary" : "btn-outline-white"}`}>Get started</Link>
+              </article>
+            ))}
           </div>
         </div>
       </section>
-      <CtaBand title="Get your custom quote" />
+      <section className="sec sec-mist">
+        <div className="container">
+          <SectionHead eyebrow="By service" title="Starting prices for each service" center />
+          <div className="grid-3" data-stagger>
+            {services.filter((s) => s.from).map((s) => (
+              <Link key={s.slug} href={`/services/${s.slug}`} className="card value" data-reveal style={{ color: "inherit" }}>
+                <h3>{s.title}</h3><p style={{ margin: "6px 0 14px" }}>{s.short}</p><p className="svc-from" style={{ margin: 0 }}>From <b>{s.from}</b> · {s.timeline}</p>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
+      <section className="sec">
+        <div className="container narrow">
+          <SectionHead eyebrow="Pricing FAQ" title="Questions about cost" center />
+          <Accordion items={pfaq} />
+        </div>
+      </section>
+      <Cta title="Get your custom quote" />
     </>
   );
 }

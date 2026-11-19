@@ -1,50 +1,58 @@
 import Link from "next/link";
+import Image from "next/image";
 import Icon from "../../components/Icon";
-import { PageHero, SectionHead, ServiceCard, CtaBand } from "../../components/Blocks";
-import { services } from "../../data/agency";
+import { PageHero, SectionHead, ServiceCard, Cta, CheckList } from "../../components/Blocks";
+import { services, reasons } from "../../data/site";
 
 export const metadata = {
-  title: "Services",
-  description: "Website development, business automation and Google Sheets systems for startups and small businesses.",
+  title: "Services — Website Design, SEO & Automation",
+  description: "Website development, SEO & local search, business automation, Google Sheets dashboards and website care for small businesses in Bhubaneswar and across India.",
   alternates: { canonical: "/services" },
 };
 
 export default function Services() {
-  const active = services.filter((s) => s.status !== "coming");
-  const coming = services.filter((s) => s.status === "coming");
+  const live = services.filter((s) => s.status !== "coming");
   return (
     <>
-      <PageHero eyebrow="Services" title="Services built around real business problems" text="Each service starts with a free call and a written quote. Pick what helps your business most right now." />
-      <section className="section">
+      <PageHero crumbs={[{ name: "Services", href: "/services" }]} eyebrow="Services" title="Digital services that help small businesses grow" text="Start with the problem you want solved. I'll recommend the simplest solution that works — and quote it clearly before any work starts." image="/images/stock/collab.jpg">
+        <div className="phero-actions"><Link href="/contact" className="btn btn-primary btn-lg">Get a free quote <Icon name="arrow" size={18} /></Link></div>
+      </PageHero>
+
+      <section className="sec">
         <div className="container">
-          <div className="service-rows">
-            {active.map((s, i) => (
-              <article key={s.slug} className="card service-row reveal">
-                <div className="service-row-head">
-                  <span className="icon-box"><Icon name={s.icon} /></span>
-                  <div>
-                    <span className={`badge badge-${s.status}`}>{s.status === "available" ? "Available" : "Pilot projects"}</span>
-                    <h2>{s.title}</h2>
-                    <p>{s.short}</p>
-                  </div>
-                </div>
-                <ul className="check-list">{s.deliverables.slice(0, 4).map((d) => <li key={d}><Icon name="check" size={18} />{d}</li>)}</ul>
-                <div className="service-row-actions">
-                  <Link href={`/services/${s.slug}`} className="btn btn-ghost">View details</Link>
-                  <Link href={`/contact?service=${s.slug}`} className="btn btn-primary">Enquire about this</Link>
-                </div>
-              </article>
+          <div className="grid-3" data-stagger>{services.map((s) => <div key={s.slug} data-reveal><ServiceCard s={s} /></div>)}</div>
+        </div>
+      </section>
+
+      {live.map((s, i) => (
+        <section key={s.slug} className={`sec ${i % 2 === 0 ? "sec-mist" : ""}`} id={s.slug}>
+          <div className="container split">
+            <div className="media" data-reveal style={{ order: i % 2 ? 2 : 0 }}><Image src={s.image} alt={`${s.title} for small businesses`} fill sizes="(max-width: 900px) 100vw, 50vw" /></div>
+            <div data-reveal>
+              <p className="eyebrow"><span className="eyebrow-dot" />{String(i + 1).padStart(2, "0")} · {s.timeline}</p>
+              <h2>{s.title}</h2>
+              <p className="lead">{s.intro}</p>
+              <CheckList items={s.deliverables.slice(0, 4)} />
+              <div className="phero-actions">
+                <Link href={`/services/${s.slug}`} className="btn btn-primary">Explore {s.title.split(" ")[0]} <Icon name="arrow" size={16} /></Link>
+                <span className="svc-from" style={{ alignSelf: "center" }}>From <b>{s.from}</b></span>
+              </div>
+            </div>
+          </div>
+        </section>
+      ))}
+
+      <section className="sec">
+        <div className="container">
+          <SectionHead eyebrow="Included with every project" title="The standards I never skip" center />
+          <div className="grid-3" data-stagger>
+            {reasons.map((r) => (
+              <div key={r.title} className="reason card" data-reveal><span className="reason-ic"><Icon name={r.icon} size={20} /></span><div><h3>{r.title}</h3><p>{r.text}</p></div></div>
             ))}
           </div>
         </div>
       </section>
-      <section className="section section-alt">
-        <div className="container">
-          <SectionHead eyebrow="Coming soon" title="Services in preparation" text="These are not available yet. They'll be listed as available only when I can deliver them well." />
-          <div className="grid-2">{coming.map((s, i) => <ServiceCard key={s.slug} s={s} i={i} />)}</div>
-        </div>
-      </section>
-      <CtaBand title="Not sure which service you need?" text="Describe the problem in a few lines. I'll suggest the simplest option — even if it's not something I sell." />
+      <Cta />
     </>
   );
 }

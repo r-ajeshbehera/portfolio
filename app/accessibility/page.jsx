@@ -1,13 +1,13 @@
 import { PageHero } from "../../components/Blocks";
-import { site } from "../../data/agency";
+import { site } from "../../data/site";
 
 export const metadata = { title: "Accessibility Statement", alternates: { canonical: "/accessibility" } };
 
 export default function Accessibility() {
   return (
     <>
-      <PageHero eyebrow="Accessibility" title="Accessibility Statement" text="Last updated: November 2026" />
-      <section className="section">
+      <PageHero crumbs={[{ name: "Accessibility", href: "/accessibility" }]} eyebrow="Accessibility" title="Accessibility Statement" text="Last updated: November 2026" />
+      <section className="sec">
         <div className="container narrow prose">
           <p>We want this website to be usable by everyone. It is designed to follow WCAG 2.2 AA practices, including:</p>
           <ul>

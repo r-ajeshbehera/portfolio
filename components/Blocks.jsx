@@ -1,91 +1,170 @@
 import Link from "next/link";
+import Image from "next/image";
 import Icon from "./Icon";
-import ProjectVisual from "./ProjectVisual";
-import { statusLabel } from "../data/agency";
+import { site, statusLabel, testimonials, SHOW_SAMPLES } from "../data/site";
 
-export function SectionHead({ eyebrow, title, text, center = false }) {
+export function JsonLd({ data }) {
+  return <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(data) }} />;
+}
+
+export function Eyebrow({ children, light = false }) {
+  return <p className={`eyebrow ${light ? "eyebrow-light" : ""}`}><span className="eyebrow-dot" aria-hidden="true" />{children}</p>;
+}
+
+export function SectionHead({ eyebrow, title, text, center = false, light = false, action }) {
   return (
-    <div className={`section-head reveal ${center ? "center" : ""}`}>
-      {eyebrow && <p className="eyebrow">{eyebrow}</p>}
-      <h2>{title}</h2>
-      {text && <p className="lead">{text}</p>}
+    <div className={`shead ${center ? "shead-center" : ""} ${action ? "shead-row" : ""}`} data-reveal>
+      <div>
+        {eyebrow && <Eyebrow light={light}>{eyebrow}</Eyebrow>}
+        <h2>{title}</h2>
+        {text && <p className="lead">{text}</p>}
+      </div>
+      {action}
     </div>
   );
 }
 
-export function PageHero({ eyebrow, title, text, children }) {
+export function Breadcrumbs({ items }) {
+  const all = [{ name: "Home", href: "/" }, ...items];
+  const ld = {
+    "@context": "https://schema.org", "@type": "BreadcrumbList",
+    itemListElement: all.map((c, i) => ({ "@type": "ListItem", position: i + 1, name: c.name, item: `${site.url}${c.href === "/" ? "" : c.href}` })),
+  };
   return (
-    <section className="page-hero">
-      <div className="container">
-        {eyebrow && <p className="eyebrow">{eyebrow}</p>}
-        <h1>{title}</h1>
-        {text && <p className="lead">{text}</p>}
-        {children}
+    <nav aria-label="Breadcrumb" className="crumbs">
+      <JsonLd data={ld} />
+      <ol>
+        {all.map((c, i) => (
+          <li key={c.href}>{i < all.length - 1 ? <Link href={c.href}>{c.name}</Link> : <span aria-current="page">{c.name}</span>}</li>
+        ))}
+      </ol>
+    </nav>
+  );
+}
+
+export function PageHero({ eyebrow, title, text, crumbs, image, tall = false, children }) {
+  return (
+    <section className={`phero ${image ? "phero-img" : ""} ${tall ? "phero-tall" : ""}`}>
+      <div className="phero-bg" aria-hidden="true" />
+      <div className="container phero-grid">
+        <div className="phero-copy">
+          {crumbs && <Breadcrumbs items={crumbs} />}
+          {eyebrow && <Eyebrow>{eyebrow}</Eyebrow>}
+          <h1 className="anim-up">{title}</h1>
+          {text && <p className="lead anim-up a2">{text}</p>}
+          {children && <div className="anim-up a3">{children}</div>}
+        </div>
+        {image && (
+          <div className="phero-photo anim-zoom">
+            <Image src={image} alt="" fill priority sizes="(max-width: 900px) 100vw, 45vw" />
+          </div>
+        )}
       </div>
     </section>
   );
 }
 
-export function ServiceCard({ s, i = 0 }) {
+export function ServiceCard({ s }) {
   const coming = s.status === "coming";
-  return (
-    <article className={`card service-card reveal d${i % 3}`}>
-      <div className="card-top">
-        <span className="svc-num">{String(i + 1).padStart(2, "0")}</span>
-        <span className="icon-box"><Icon name={s.icon} /></span>
+  const inner = (
+    <>
+      <div className="svc-top">
+        <span className="svc-ic"><Icon name={s.icon} size={24} /></span>
         <span className={`badge badge-${s.status}`}>{statusLabel[s.status]}</span>
       </div>
       <h3>{s.title}</h3>
       <p>{s.short}</p>
       {!coming && (
-        <Link href={`/services/${s.slug}`} className="link-arrow">Learn more <Icon name="arrow" size={16} /></Link>
+        <div className="svc-foot">
+          {s.from && <span className="svc-from">From <b>{s.from}</b></span>}
+          <span className="svc-go" aria-hidden="true"><Icon name="arrowUR" size={18} /></span>
+        </div>
       )}
-    </article>
+    </>
   );
+  return coming
+    ? <article className="svc svc-coming">{inner}</article>
+    : <Link href={`/services/${s.slug}`} className="svc" aria-label={`${s.title} — learn more`}>{inner}</Link>;
 }
 
-export function ProjectCard({ p, i = 0, priority = false }) {
+export function ProjectCard({ p, priority = false }) {
   return (
-    <Link href={`/work/${p.slug}`} className={`card project-card reveal d${i % 3}`}>
-      <ProjectVisual project={p} priority={priority} />
-      <div className="project-body">
-        <div className="project-meta">
-          <span className={`label ${p.label === "Demo project" ? "label-demo" : ""}`}>{p.label}</span>
-          <span className="muted">{p.category}</span>
-        </div>
+    <Link href={`/work/${p.slug}`} className="proj">
+      <div className="proj-img">
+        <Image src={p.image} alt={`${p.title} — ${p.category}`} fill sizes="(max-width: 700px) 100vw, (max-width: 1100px) 50vw, 33vw" priority={priority} />
+        <span className={`tag ${p.label === "Demo project" ? "tag-demo" : ""}`}>{p.label}</span>
+      </div>
+      <div className="proj-body">
+        <p className="proj-cat">{p.category} · {p.year}</p>
         <h3>{p.title}</h3>
         <p>{p.summary}</p>
-        <ul className="tags">{p.tools.map((t) => <li key={t}>{t}</li>)}</ul>
+        <ul className="chips">{p.tools.slice(0, 4).map((t) => <li key={t}>{t}</li>)}</ul>
       </div>
     </Link>
   );
 }
 
-export function FaqList({ items }) {
+export function PostCard({ post }) {
+  const d = new Date(post.date).toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" });
   return (
-    <div className="faq-list">
-      {items.map((f) => (
-        <details key={f.q} className="faq reveal">
-          <summary><span>{f.q}</span><span className="faq-icon"><Icon name="plus" size={18} /></span></summary>
-          <p>{f.a}</p>
-        </details>
-      ))}
+    <Link href={`/blog/${post.slug}`} className="post">
+      <div className="post-img"><Image src={post.image} alt="" fill sizes="(max-width: 700px) 100vw, 33vw" /></div>
+      <div className="post-body">
+        <p className="post-meta"><span className="pill">{post.category}</span><time dateTime={post.date}>{d}</time> · {post.read}</p>
+        <h3>{post.title}</h3>
+        <p>{post.excerpt}</p>
+        <span className="link">Read article <Icon name="arrow" size={16} /></span>
+      </div>
+    </Link>
+  );
+}
+
+export function Marquee({ items }) {
+  const row = [...items, ...items];
+  return (
+    <div className="marquee" aria-label="Tools and technologies I work with">
+      <ul className="marquee-track">
+        {row.map((t, i) => <li key={i} aria-hidden={i >= items.length}><Icon name="sparkle" size={14} />{t}</li>)}
+      </ul>
     </div>
   );
 }
 
-export function CtaBand({ title = "Have a project in mind?", text = "Tell me about your business and the problem you want solved. I'll reply with questions or a time for a free call." }) {
+export function Testimonials() {
+  if (!SHOW_SAMPLES) return null;
   return (
-    <section className="section">
+    <section className="sec sec-mist">
       <div className="container">
-        <div className="cta-band reveal">
-          <div>
+        <SectionHead eyebrow="Client words" title="What clients say" text="Preview only: these are sample reviews and are hidden on the live site until real ones replace them." center />
+        <div className="grid-3" data-stagger>
+          {testimonials.map((t) => (
+            <figure key={t.quote} className="quote" data-reveal>
+              <div className="stars" aria-hidden="true">{[0, 1, 2, 3, 4].map((i) => <Icon key={i} name="star" size={16} />)}</div>
+              <blockquote>“{t.quote}”</blockquote>
+              <figcaption><span className="avatar" aria-hidden="true">{t.name[0]}</span><span><b>{t.name}</b><small>{t.role}</small></span></figcaption>
+            </figure>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+export function Cta({ title = "Ready to grow your business online?", text = "Tell me about your business and goals. I'll reply with ideas and a free, no-obligation quote." }) {
+  return (
+    <section className="sec sec-cta">
+      <div className="container">
+        <div className="cta" data-reveal>
+          <div className="cta-glow" aria-hidden="true" />
+          <div className="cta-copy">
             <h2>{title}</h2>
             <p>{text}</p>
           </div>
           <div className="cta-actions">
-            <Link href="/contact" className="btn btn-light">Discuss Your Project</Link>
-            <Link href="/services" className="btn btn-outline-light">Explore Services</Link>
+            <Link href="/contact" className="btn btn-primary btn-lg">Get a free quote <Icon name="arrow" size={18} /></Link>
+            {site.whatsapp
+              ? <a href={`https://wa.me/${site.whatsapp}`} className="btn btn-ghost btn-lg" target="_blank" rel="noopener noreferrer"><Icon name="chat" size={18} /> WhatsApp</a>
+              : <a href={`mailto:${site.email}`} className="btn btn-ghost btn-lg"><Icon name="mail" size={18} /> Email me</a>}
           </div>
         </div>
       </div>
@@ -93,16 +172,6 @@ export function CtaBand({ title = "Have a project in mind?", text = "Tell me abo
   );
 }
 
-export function Steps({ items, compact = false }) {
-  return (
-    <ol className={`steps ${compact ? "steps-compact" : ""}`}>
-      {items.map((s, i) => (
-        <li key={s.title} className={`step reveal d${i % 4}`}>
-          <span className="step-num">{String(i + 1).padStart(2, "0")}</span>
-          <h3>{s.title}</h3>
-          {s.text && <p>{s.text}</p>}
-        </li>
-      ))}
-    </ol>
-  );
+export function CheckList({ items }) {
+  return <ul className="checks">{items.map((x) => <li key={x}><span><Icon name="check" size={14} stroke={2.4} /></span>{x}</li>)}</ul>;
 }

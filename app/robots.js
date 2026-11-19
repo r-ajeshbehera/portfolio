@@ -1,5 +1,4 @@
-const base = process.env.NEXT_PUBLIC_SITE_URL || "https://rajeshbehera.vercel.app";
-
+import { site } from "../data/site";
 export default function robots() {
-  return { rules: { userAgent: "*", allow: "/", disallow: ["/api/", "/thank-you"] }, sitemap: `${base}/sitemap.xml` };
+  return { rules: { userAgent: "*", allow: "/", disallow: ["/api/", "/thank-you"] }, sitemap: `${site.url}/sitemap.xml`, host: site.url };
 }

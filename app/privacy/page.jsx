@@ -1,13 +1,13 @@
 import { PageHero } from "../../components/Blocks";
-import { site } from "../../data/agency";
+import { site } from "../../data/site";
 
 export const metadata = { title: "Privacy Policy", alternates: { canonical: "/privacy" } };
 
 export default function Privacy() {
   return (
     <>
-      <PageHero eyebrow="Legal" title="Privacy Policy" text="Last updated: November 2026" />
-      <section className="section">
+      <PageHero crumbs={[{ name: "Privacy", href: "/privacy" }]} eyebrow="Legal" title="Privacy Policy" text="Last updated: November 2026" />
+      <section className="sec">
         <div className="container narrow prose">
           <p className="note">This policy describes how this website handles your information. It is a plain-language policy and has not been reviewed by a lawyer.</p>
           <h2>Who we are</h2>
